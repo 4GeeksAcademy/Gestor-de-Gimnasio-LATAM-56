@@ -62,7 +62,7 @@ export const Home = () => {
 					<div className="card-body">
 						<h5 className="card-title">Clases</h5>
 						<p className="card-text">Disfruta de clases de grupo divertidas y efectivas.</p>
-						<a href="#" className="btn btn-primary">Ver más</a>
+						<a href="#" className="btn btn-primary">Ver más cosas</a>
 					</div>
 				</div>
 				<div>
