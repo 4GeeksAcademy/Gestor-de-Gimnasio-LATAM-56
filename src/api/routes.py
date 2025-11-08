@@ -20,3 +20,7 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route('/test', methods=['GET'])
+def test_connection():
+    return jsonify({"message": "Backend conectado correctamente"}), 200
