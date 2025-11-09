@@ -5,6 +5,7 @@ import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
+from flask_cors import CORS  # AGREGADO
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
@@ -28,6 +29,24 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# ============================================
+# CONFIGURACIÓN CORS AGREGADA
+# ============================================
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:3000",
+            "http://localhost:5173",
+            "http://localhost:8080",
+            "http://localhost:3001",
+            os.getenv("VITE_BACKEND_URL", "http://localhost:3001")
+        ],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
+
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
@@ -56,7 +75,23 @@ def sitemap():
         return generate_sitemap(app)
     return send_from_directory(static_file_dir, 'index.html')
 
+# ============================================
+# HEALTH CHECK AGREGADO
+# ============================================
+
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Endpoint para verificar que el servidor está funcionando"""
+    return jsonify({
+        'status': 'ok',
+        'message': 'Servidor funcionando correctamente',
+        'environment': ENV
+    }), 200
+
 # any other endpoint will try to serve it like a static file
+
+
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
     if not os.path.isfile(os.path.join(static_file_dir, path)):

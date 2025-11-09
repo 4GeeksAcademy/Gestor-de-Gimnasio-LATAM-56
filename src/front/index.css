@@ -7,3 +7,48 @@ body {
   object-fit: cover; /* mantiene la proporción sin deformar */
   border-radius: 10px;
 }
+
+/* Estilos adicionales para el registro */
+.min-vh-100 {
+  min-height: 100vh !important;
+}
+
+.bg-dark {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+}
+
+.shadow-lg {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+/* Mejoras para el formulario */
+.form-control-lg {
+  border-radius: 0.5rem;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.form-control-lg:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border: none;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .bg-light {
+    margin: 1rem;
+    padding: 2rem !important;
+  }
+}
