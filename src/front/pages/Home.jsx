@@ -33,7 +33,6 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<h1 className="display-4 text-white">Gestor de GYM!!</h1>
 			<div id="carouselExampleControls" className="carousel slide carousel-small" data-bs-ride="carousel">
 				<div className="carousel-inner">
 					<div className="carousel-item active">
@@ -57,18 +56,18 @@ export const Home = () => {
 			</div>
 			<div className="d-flex justify-content-center">
 				<div className="card" style={{ width: "18rem" }}>
-					<img src="/imagen-card3.jpg" className="card-img-top" alt="Clases" />
-					<div className="card-body">
-						<h5 className="card-title">Clases</h5>
+					<img src="/rutinas.png" className="card-img-top" alt="Clases" />
+					<div className="card-body bg-primary">
+						<h5 className="card-title">Rutinas</h5>
 						<p className="card-text">Disfruta de clases de grupo divertidas y efectivas.</p>
 						<a href="#" className="btn btn-primary">Ver más cosas</a>
 					</div>
 				</div>
 				<div>
 					<div className="card" style={{ width: "18rem" }}>
-						<img src="/imagen-card3.jpg" className="card-img-top" alt="Clases" />
-						<div className="card-body">
-							<h5 className="card-title">Clases</h5>
+						<img src="/alimentacion.png" className="card-img-top" alt="Clases" />
+						<div className="card-body bg-primary">
+							<h5 className="card-title">Alimentacion</h5>
 							<p className="card-text">Disfruta de clases de grupo divertidas y efectivas.</p>
 							<a href="#" className="btn btn-primary">Ver más</a>
 						</div>
@@ -76,9 +75,9 @@ export const Home = () => {
 				</div>
 				<div>
 					<div className="card" style={{ width: "18rem" }}>
-						<img src="/imagen-card3.jpg" className="card-img-top" alt="Clases" />
-						<div className="card-body">
-							<h5 className="card-title">Clases</h5>
+						<img src="/objetivos.png" className="card-img-top" alt="Clases" />
+						<div className="card-body bg-primary">
+							<h5 className="card-title">Objetivos</h5>
 							<p className="card-text">Disfruta de clases de grupo divertidas y efectivas.</p>
 							<a href="#" className="btn btn-primary">Ver más</a>
 						</div>
