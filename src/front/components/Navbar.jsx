@@ -5,9 +5,9 @@ export const Navbar = () => {
 	return (
 		<nav className="navbar navbar-dark bg-dark">
 			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">GYMCLOUD</span>
-				</Link>
+				<div>
+					<img src="/logo3.png" alt="Logo del gimnasio" height="50" />
+				</div>
 				<div className="ml-auto">
 					<Link to="/demo">
 						<button className="btn btn-primary me-2">Check the Context in action</button>
