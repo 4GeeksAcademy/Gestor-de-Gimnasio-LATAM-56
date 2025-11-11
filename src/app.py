@@ -2,107 +2,93 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, jsonify, send_from_directory
 from flask_migrate import Migrate
-from flask_swagger import swagger
-from flask_cors import CORS  # AGREGADO
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager
+from datetime import timedelta
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
-from api.admin import setup_admin
-from api.commands import setup_commands
-
-
-# from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
+
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-# database condiguration
+# Database configuration
 db_url = os.getenv("DATABASE_URL")
-if db_url is not None:
+if db_url:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
         "postgres://", "postgresql://")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+migrate = Migrate(app, db)
 
-# ============================================
-# CONFIGURACIÓN CORS AGREGADA
-# ============================================
+# JWT Configuration
+app.config['JWT_SECRET_KEY'] = os.getenv(
+    'JWT_SECRET_KEY', 'cambiar-esto-en-produccion')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
+jwt = JWTManager(app)
+
+# CORS Configuration
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 CORS(app, resources={
     r"/api/*": {
-        "origins": [
-            "http://localhost:3000",
-            "http://localhost:5173",
-            "http://localhost:8080",
-            "http://localhost:3001",
-            os.getenv("VITE_BACKEND_URL", "http://localhost:3001")
-        ],
+        "origins": ["*"],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }
 })
 
-MIGRATE = Migrate(app, db, compare_type=True)
-db.init_app(app)
+# Register API blueprint
+app.register_blueprint(api, url_prefix="/api")
 
-# add the admin
-setup_admin(app)
+# Sitemap
 
-# add the admin
-setup_commands(app)
 
-# Add all endpoints form the API with a "api" prefix
-app.register_blueprint(api, url_prefix='/api')
+@app.route('/')
+def sitemap():
+    return generate_sitemap(app)
 
-# Handle/serialize errors like a JSON object
+# Health check
+
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "ok", "environment": ENV}), 200
+
+
+@app.route('/test', methods=['GET'])
+def test_connection():
+    return jsonify({"message": "Backend conectado correctamente"}), 200
+
+# Error handlers
 
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-# generate sitemap with all your endpoints
-
-
-@app.route('/')
-def sitemap():
-    if ENV == "development":
-        return generate_sitemap(app)
-    return send_from_directory(static_file_dir, 'index.html')
-
-# ============================================
-# HEALTH CHECK AGREGADO
-# ============================================
-
-
-@app.route('/health', methods=['GET'])
-def health_check():
-    """Endpoint para verificar que el servidor está funcionando"""
-    return jsonify({
-        'status': 'ok',
-        'message': 'Servidor funcionando correctamente',
-        'environment': ENV
-    }), 200
-
-# any other endpoint will try to serve it like a static file
+# Serve frontend (solo si existe el directorio dist)
 
 
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(static_file_dir, path)):
-        path = 'index.html'
-    response = send_from_directory(static_file_dir, path)
-    response.cache_control.max_age = 0  # avoid cache memory
-    return response
+    if os.path.isdir(static_file_dir):
+        if not os.path.isfile(os.path.join(static_file_dir, path)):
+            path = 'index.html'
+        response = send_from_directory(static_file_dir, path)
+        response.cache_control.max_age = 0
+        return response
+    return jsonify({"message": "Frontend not built yet"}), 404
 
 
-# this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)

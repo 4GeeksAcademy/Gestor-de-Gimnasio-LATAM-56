@@ -1,3 +1,10 @@
+# src/api/models.py
+"""
+Modelos de la base de datos.
+Contiene dos modelos:
+ - User: modelo mínimo (para compatibilidad con otras partes del proyecto)
+ - Usuario: modelo principal usado por la API de registro/login
+"""
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
@@ -9,21 +16,23 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
+    """
+    Modelo auxiliar (mantener para compatibilidad).
+    No se usa para el registro principal.
+    """
+    __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
-    is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+    is_active: Mapped[bool] = mapped_column(
+        Boolean(), nullable=False, default=True)
 
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
-            # do not serialize the password, its a security breach
         }
-
-# ============================================
-# jc
 
 
 class Usuario(db.Model):
@@ -32,7 +41,6 @@ class Usuario(db.Model):
     """
     __tablename__ = 'usuarios'
 
-    # Campos principales
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), nullable=False)
     apellido = db.Column(db.String(50), nullable=False)
@@ -54,14 +62,18 @@ class Usuario(db.Model):
 
     def to_dict(self):
         """Convierte el objeto a diccionario (sin password)"""
+        # Manejo defensivo por si fecha_nacimiento o fecha_registro son None
+        fecha_nac = self.fecha_nacimiento.isoformat() if self.fecha_nacimiento else None
+        fecha_reg = self.fecha_registro.isoformat() if self.fecha_registro else None
+
         return {
             'id': self.id,
             'nombre': self.nombre,
             'apellido': self.apellido,
             'email': self.email,
             'telefono': self.telefono,
-            'fecha_nacimiento': self.fecha_nacimiento.isoformat(),
-            'fecha_registro': self.fecha_registro.isoformat(),
+            'fecha_nacimiento': fecha_nac,
+            'fecha_registro': fecha_reg,
             'activo': self.activo
         }
 
