@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export const Navbar = () => {
 
 	return (
-		<nav className="navbar navbar-dark bg-dark">
+		<nav className="navbar navbar-dark bg-none">
 			<div className="container">
 				<div>
 					<img src="/logo3.png" alt="Logo del gimnasio" height="50" />
