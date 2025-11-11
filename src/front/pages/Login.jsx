@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../Login.css'; // Importa los estilos normales
+import BACKEND_URL from "../components/BackendURL.jsx";
+import '../Login.css';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ export default function Login() {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:5000/api/login', {
+            const response = await fetch(`${BACKEND_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -32,10 +33,10 @@ export default function Login() {
                 setSuccess('¡Login exitoso! Bienvenido ' + data.user.email);
 
                 setTimeout(() => {
-                    window.location.href = '/dashboard';
+                    navigate('/demo');
                 }, 1000);
             } else {
-                setError(data.error || 'Error al iniciar sesión');
+                setError(data.message || 'Error al iniciar sesión');
             }
         } catch (err) {
             setError('Error de conexión. Verifica que el backend esté corriendo.');
@@ -108,4 +109,3 @@ export default function Login() {
         </div>
     );
 }
-

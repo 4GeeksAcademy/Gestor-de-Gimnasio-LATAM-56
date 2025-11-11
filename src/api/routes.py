@@ -19,6 +19,8 @@ CORS(api)
 # --------------------------------
 # RUTAS DE PRUEBA
 # --------------------------------
+
+
 @api.route('/hello', methods=['GET', 'POST'])
 def handle_hello():
     return jsonify({"message": "Hello! Backend funcionando."}), 200
@@ -28,10 +30,11 @@ def handle_hello():
 def test_connection():
     return jsonify({"message": "Backend conectado correctamente"}), 200
 
-
 # --------------------------------
 # REGISTRO DE USUARIO
 # --------------------------------
+
+
 @api.route('/register', methods=['POST'])
 def register():
     """
@@ -52,8 +55,10 @@ def register():
             return jsonify({'success': False, 'message': 'No se enviaron datos'}), 400
 
         # Campos requeridos
-        campos_requeridos = ['nombre', 'apellido', 'email', 'password', 'telefono', 'fechaNacimiento']
-        campos_faltantes = [campo for campo in campos_requeridos if campo not in data or not data[campo]]
+        campos_requeridos = ['nombre', 'apellido', 'email',
+                             'password', 'telefono', 'fechaNacimiento']
+        campos_faltantes = [
+            campo for campo in campos_requeridos if campo not in data or not data[campo]]
 
         if campos_faltantes:
             return jsonify({'success': False, 'message': f'Campos faltantes: {", ".join(campos_faltantes)}'}), 400
@@ -85,9 +90,11 @@ def register():
 
         # Validar fecha de nacimiento y calcular edad
         try:
-            fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, '%Y-%m-%d').date()
+            fecha_nacimiento = datetime.strptime(
+                fecha_nacimiento_str, '%Y-%m-%d').date()
             hoy = datetime.now().date()
-            edad = hoy.year - fecha_nacimiento.year - ((hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
+            edad = hoy.year - fecha_nacimiento.year - \
+                ((hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
 
             if edad < 16:
                 return jsonify({'success': False, 'message': 'Debes tener al menos 16 años para registrarte'}), 400
@@ -131,10 +138,11 @@ def register():
         traceback.print_exc()
         return jsonify({'success': False, 'message': 'Error interno del servidor'}), 500
 
-
 # --------------------------------
 # CHECK EMAIL (disponibilidad)
 # --------------------------------
+
+
 @api.route('/check-email', methods=['POST'])
 def check_email():
     try:
@@ -146,16 +154,18 @@ def check_email():
         if not Usuario.validar_email(email):
             return jsonify({'success': False, 'message': 'Email inválido'}), 400
 
-        usuario_existe = Usuario.query.filter_by(email=email).first() is not None
+        usuario_existe = Usuario.query.filter_by(
+            email=email).first() is not None
         return jsonify({'success': True, 'disponible': not usuario_existe}), 200
     except Exception as e:
         print("Error en /api/check-email:", e)
         return jsonify({'success': False, 'message': 'Error al verificar email'}), 500
 
-
 # --------------------------------
 # LOGIN
 # --------------------------------
+
+
 @api.route('/login', methods=['POST'])
 def login():
     try:
@@ -180,7 +190,14 @@ def login():
             return jsonify({'success': False, 'message': 'Usuario inactivo. Contacte al administrador'}), 403
 
         access_token = create_access_token(identity=usuario.id)
-        return jsonify({'success': True, 'message': 'Login exitoso', 'usuario': usuario.to_dict(), 'access_token': access_token}), 200
+        return jsonify({
+            'success': True,
+            'message': 'Login exitoso',
+            'usuario': usuario.to_dict(),
+            'access_token': access_token,
+            'token': access_token,  # Para compatibilidad con login.jsx
+            'user': usuario.to_dict()  # Para compatibilidad con login.jsx
+        }), 200
 
     except Exception as e:
         print("Error en /api/login:", e)
@@ -188,10 +205,11 @@ def login():
         traceback.print_exc()
         return jsonify({'success': False, 'message': 'Error interno del servidor'}), 500
 
-
 # --------------------------------
 # PROFILE (ejemplo) y otros
 # --------------------------------
+
+
 @api.route('/profile', methods=['GET'])
 @jwt_required()
 def get_profile():
