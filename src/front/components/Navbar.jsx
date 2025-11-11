@@ -13,6 +13,9 @@ export const Navbar = () => {
 						<button className="btn btn-primary me-2">Check the Context in action</button>
 					</Link>
 					{/* AGREGADO: Botón de registro */}
+					<Link to="/login">
+						<button className="btn btn-info me-2">Iniciar Sesión</button>
+					</Link>
 					<Link to="/register">
 						<button className="btn btn-success">Registrarse</button>
 					</Link>
