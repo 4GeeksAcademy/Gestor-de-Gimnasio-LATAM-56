@@ -91,7 +91,6 @@ export default function Login() {
                         ¿No tienes cuenta?{' '}
                         <button className="link">Regístrate aquí</button>
                     </p>
-                    <button className="link small">¿Olvidaste tu contraseña?</button>
                 </div>
             </div>
         </div>
