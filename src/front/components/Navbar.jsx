@@ -42,7 +42,7 @@ export const Navbar = () => {
 						<button className="btn btn-info me-2">Iniciar Sesión</button>
 					</Link>
 					<Link to="/register">
-						<button className="btn btn-success">Registrarse</button>
+						<button className="btn btn-info">Registrarse</button>
 					</Link>
 				</div>
 			</div>
