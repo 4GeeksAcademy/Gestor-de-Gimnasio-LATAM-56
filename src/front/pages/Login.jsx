@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import '../Login.css'; // 
+import { useNavigate } from 'react-router-dom';
+import '../Login.css'; // Importa los estilos normales
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -7,6 +8,7 @@ export default function Login() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,7 +48,12 @@ export default function Login() {
         <div className="login-container">
             <div className="login-box">
                 <div className="login-header">
-                    <h2>🏋️ GymCloud</h2>
+                    <h2
+                        onClick={() => navigate('/')}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        GymCloud
+                    </h2>
                     <p>Inicia sesión para continuar</p>
                 </div>
 
@@ -89,10 +96,16 @@ export default function Login() {
                 <div className="login-footer">
                     <p>
                         ¿No tienes cuenta?{' '}
-                        <button className="link">Regístrate aquí</button>
+                        <button
+                            onClick={() => navigate('/register')}
+                            className="link"
+                        >
+                            Regístrate aquí
+                        </button>
                     </p>
                 </div>
             </div>
         </div>
     );
 }
+
