@@ -11,6 +11,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 
+
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API blueprint (refuerzo)

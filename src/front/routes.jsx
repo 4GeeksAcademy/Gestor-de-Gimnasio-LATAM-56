@@ -11,6 +11,8 @@ import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import Register from "./pages/Register"; // AGREGADO
 import Login from "./pages/Login";  // AGREGADO
+import Dashboard from "./pages/Dashboard"; //Fernando Agrego esto
+import TrainingSelector from "./pages/TrainingSelector";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +31,10 @@ export const router = createBrowserRouter(
       <Route path="/demo" element={<Demo />} />
       <Route path="/register" element={<Register />} /> {/* AGREGADO: Ruta de registro */}
       <Route path="/login" element={<Login />} /> {/* AGREGADO: Ruta de login */}
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/training" element={<TrainingSelector />} />
+
+
     </Route>
   )
 );

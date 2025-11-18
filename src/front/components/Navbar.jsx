@@ -28,9 +28,10 @@ export const Navbar = () => {
 						</button>
 
 						<ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-							<li><button className="dropdown-item" type="button">Inicio</button></li>
-							<li><button className="dropdown-item" type="button">Rutinas</button></li>
+							<li><Link className="dropdown-item" to="/">Inicio</Link></li>
+							<li><Link className="dropdown-item" to="/training">Rutinas</Link></li>
 							<li><button className="dropdown-item" type="button">Alimentación</button></li>
+							<li><button className="dropdown-item" type="button">Objetivos</button></li>
 							<li><button className="dropdown-item" type="button">Contacto</button></li>
 						</ul>
 					</div>

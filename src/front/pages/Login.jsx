@@ -33,7 +33,7 @@ export default function Login() {
                 setSuccess('¡Login exitoso! Bienvenido ' + data.user.email);
 
                 setTimeout(() => {
-                    navigate('/demo');
+                    navigate('/dashboard');//Fernando cambio la ruta hacia el dashboard
                 }, 1000);
             } else {
                 setError(data.message || 'Error al iniciar sesión');

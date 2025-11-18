@@ -10,12 +10,27 @@ from datetime import timedelta
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
+from api.training_routes import training
+
+app = Flask(__name__)
+# CORS Configuration - ARREGLADO
+CORS(app,
+     resources={r"/*": {"origins": "*"}},
+     allow_headers=["Content-Type", "Authorization"],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     supports_credentials=True)
+
+# agregado por Fernando preguntar e investigar mas sobre blueprint
+app.register_blueprint(training, url_prefix="/api/training")
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 
-app = Flask(__name__)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
 app.url_map.strict_slashes = False
 
 # Database configuration
@@ -36,36 +51,39 @@ app.config['JWT_SECRET_KEY'] = os.getenv(
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
 jwt = JWTManager(app)
 
-# CORS Configuration - ARREGLADO
-CORS(app, 
-     resources={r"/*": {"origins": "*"}},
-     allow_headers=["Content-Type", "Authorization"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-     supports_credentials=True)
 
 # Register API blueprint
 app.register_blueprint(api, url_prefix="/api")
 
 # Sitemap
+
+
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
 
 # Health check
+
+
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "ok", "environment": ENV}), 200
+
 
 @app.route('/test', methods=['GET'])
 def test_connection():
     return jsonify({"message": "Backend conectado correctamente"}), 200
 
 # Error handlers
+
+
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
 # Serve frontend (solo si existe el directorio dist)
+
+
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
     if os.path.isdir(static_file_dir):
@@ -75,6 +93,7 @@ def serve_any_other_file(path):
         response.cache_control.max_age = 0
         return response
     return jsonify({"message": "Frontend not built yet"}), 404
+
 
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
