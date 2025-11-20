@@ -9,10 +9,11 @@ import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
-import Register from "./pages/Register"; // AGREGADO
-import Login from "./pages/Login";  // AGREGADO
-import Dashboard from "./pages/Dashboard"; //Fernando Agrego esto
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 import TrainingSelector from "./pages/TrainingSelector";
+import Objetivos from "./pages/Objetivos"; // NUEVO - Agregado para Objetivos
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,12 +30,11 @@ export const router = createBrowserRouter(
       <Route path="/" element={<Home />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
-      <Route path="/register" element={<Register />} /> {/* AGREGADO: Ruta de registro */}
-      <Route path="/login" element={<Login />} /> {/* AGREGADO: Ruta de login */}
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/training" element={<TrainingSelector />} />
-
-
+      <Route path="/register" element={<Register />} /> {/* Ruta de registro */}
+      <Route path="/login" element={<Login />} /> {/* Ruta de login */}
+      <Route path="/dashboard" element={<Dashboard />} /> {/* Dashboard de Fernando */}
+      <Route path="/training" element={<TrainingSelector />} /> {/* Rutinas */}
+      <Route path="/objetivos" element={<Objetivos />} /> {/* NUEVO - Ruta de Objetivos */}
     </Route>
   )
 );
