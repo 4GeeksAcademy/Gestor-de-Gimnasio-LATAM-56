@@ -6,6 +6,7 @@ import '../Login.css';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
@@ -53,7 +54,7 @@ export default function Login() {
                         onClick={() => navigate('/')}
                         style={{ cursor: 'pointer' }}
                     >
-                        GymCloud
+                        GYMCLOUD
                     </h2>
                     <p>Inicia sesión para continuar</p>
                 </div>
@@ -81,13 +82,22 @@ export default function Login() {
                     />
 
                     <label>Contraseña</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••"
-                        required
-                    />
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••••"
+                            required
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? '👁️' : '👁️‍🗨️'}
+                        </button>
+                    </div>
 
                     <button type="submit" disabled={loading || !email || !password}>
                         {loading ? '⏳ Iniciando sesión...' : '🔐 Iniciar Sesión'}

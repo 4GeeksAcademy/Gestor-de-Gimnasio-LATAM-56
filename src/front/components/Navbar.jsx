@@ -30,15 +30,14 @@ export const Navbar = () => {
 						<ul className="dropdown-menu dropdown-menu-end text-white" aria-labelledby="dropdownMenuButton">
 							<li><Link className="dropdown-item" to="/">Inicio</Link></li>
 							<li><Link className="dropdown-item" to="/training">Rutinas</Link></li>
-							<li><button className="dropdown-item" type="button">Alimentación</button></li>
-							<li><button className="dropdown-item" type="button">Objetivos</button></li>
-							<li><button className="dropdown-item" type="button">Contacto</button></li>
+							<li><Link className="dropdown-item" to="/alimentacion">Alimentación</Link></li>
+							<li><Link className="dropdown-item" to="/objetivos">Objetivos</Link></li>
+							<li><Link className="dropdown-item" to="/contacto">Contacto</Link></li>
 						</ul>
 					</div>
 
 				</div>
 				<div className="ml-auto">
-					{/* AGREGADO: Botón de registro */}
 					<Link to="/login">
 						<button className="btn btn-glass me-2">Iniciar Sesión</button>
 					</Link>
