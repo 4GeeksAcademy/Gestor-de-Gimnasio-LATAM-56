@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import '../Navbar.css';
 
 export const Navbar = () => {
 
@@ -8,9 +9,9 @@ export const Navbar = () => {
 				<div className="d-flex align-items-center">
 					<Link to="/">
 						<img
-							src="/logomejorado.png"
+							src="/logo1.png"
 							alt="Logo del gimnasio"
-							height="60"
+							height="70"
 							style={{ cursor: "pointer" }}
 						/>
 					</Link>
@@ -27,7 +28,7 @@ export const Navbar = () => {
 							<span className="navbar-toggler-icon"></span>
 						</button>
 
-						<ul className="dropdown-menu dropdown-menu-end text-white" aria-labelledby="dropdownMenuButton">
+						<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							<li><Link className="dropdown-item" to="/">Inicio</Link></li>
 							<li><Link className="dropdown-item" to="/training">Rutinas</Link></li>
 							<li><Link className="dropdown-item" to="/alimentacion">Alimentación</Link></li>
@@ -39,10 +40,10 @@ export const Navbar = () => {
 				</div>
 				<div className="ml-auto">
 					<Link to="/login">
-						<button className="btn btn-glass me-2">Iniciar Sesión</button>
+						<button className="btn btn-glass me-2 text-white">Iniciar Sesión</button>
 					</Link>
 					<Link to="/register">
-						<button className="btn btn-glass">Registrarse</button>
+						<button className="btn btn-glass text-white">Registrarse</button>
 					</Link>
 				</div>
 			</div>
