@@ -33,7 +33,7 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<div id="carouselExampleControls" className="carousel slide carousel-small" data-bs-ride="carousel">
+			<div id="carouselExampleControls" className="carousel slide carousel-big " data-bs-ride="carousel">
 				<div className="carousel-inner">
 					<div className="carousel-item active">
 						<img src="/imagen1.jpg" className="d-block w-100" alt="..." />
@@ -55,7 +55,7 @@ export const Home = () => {
 				</button>
 			</div>
 			<div className="d-flex justify-content-center">
-				<div className="card" style={{ width: "18rem" }}>
+				<div className="card-glass" style={{ width: "20rem" }}>
 					<img src="/rutinas.png" className="card-img-top" alt="Clases" />
 					<div className="card-body bg-primary">
 						<h5 className="card-title">Rutinas</h5>
@@ -64,7 +64,7 @@ export const Home = () => {
 					</div>
 				</div>
 				<div>
-					<div className="card" style={{ width: "18rem" }}>
+					<div className="card-glass" style={{ width: "20rem" }}>
 						<img src="/alimentacion.png" className="card-img-top" alt="Clases" />
 						<div className="card-body bg-primary">
 							<h5 className="card-title">Alimentacion</h5>
@@ -74,7 +74,7 @@ export const Home = () => {
 					</div>
 				</div>
 				<div>
-					<div className="card" style={{ width: "18rem" }}>
+					<div className="card-glass" style={{ width: "20rem" }}>
 						<img src="/objetivos.png" className="card-img-top" alt="Clases" />
 						<div className="card-body bg-primary">
 							<h5 className="card-title">Objetivos</h5>

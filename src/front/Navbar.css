@@ -1,0 +1,46 @@
+.navbar {
+  color: #e5e7eb;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  background: rgba(15, 23, 42, 0.35) !important; /* Azul oscuro transparente */
+  backdrop-filter: blur(18px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Botones estilo glass */
+.navbar .btn-glass {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #e5e7eb !important; /* ← ahora sí el color correcto */
+  border-radius: 12px;
+  padding: 0.45rem 1.2rem;
+  font-weight: 600;
+  transition: all 0.25s ease-in-out;
+}
+
+/* Efecto hover */
+.navbar .btn-glass:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.2);
+}
+
+/* Dropdown estilo glass */
+.dropdown-menu {
+  background: rgba(15, 23, 42, 0.35) !important;
+  backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dropdown-item {
+  color: #e5e7eb !important; /* ← texto del dropdown blanco */
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+}

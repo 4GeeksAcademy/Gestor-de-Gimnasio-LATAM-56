@@ -1,11 +1,22 @@
 body {
-  background-color: #2f509e;
+  margin: 0;
+  padding: 0;
+  background-color: #1b3674;
 }
 
-.carousel-small img {
-  height: 400px; /* puedes ajustar el valor */
-  object-fit: cover; /* mantiene la proporción sin deformar */
-  border-radius: 10px;
+.carousel-big {
+  margin-top: -96px !important; /* Ajustar a la altura REAL del navbar */
+  position: relative;
+  z-index: 1;
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
 }
 
 /* Estilos adicionales para el registro */
@@ -51,4 +62,7 @@ body {
     margin: 1rem;
     padding: 2rem !important;
   }
+}
+Footer {
+  background-color: #1b3674;
 }

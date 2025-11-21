@@ -88,7 +88,7 @@ const Register = () => {
             }
 
             setSuccess(true);
-            setTimeout(() => navigate('/'), 1500);
+            setTimeout(() => navigate('/login'), 1500);
 
         } catch (error) {
             setErrors({ submit: 'Error de conexión con el servidor' });
