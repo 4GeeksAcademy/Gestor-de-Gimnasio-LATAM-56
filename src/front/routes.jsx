@@ -13,7 +13,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import TrainingSelector from "./pages/TrainingSelector";
-import Objetivos from "./pages/Objetivos"; // NUEVO - Agregado para Objetivos
+import Objetivos from "./pages/Objetivos";
+import PerfilCorporal from "./pages/PerfilCorporal";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,9 +33,10 @@ export const router = createBrowserRouter(
       <Route path="/demo" element={<Demo />} />
       <Route path="/register" element={<Register />} /> {/* Ruta de registro */}
       <Route path="/login" element={<Login />} /> {/* Ruta de login */}
-      <Route path="/dashboard" element={<Dashboard />} /> {/* Dashboard de Fernando */}
+      <Route path="/dashboard" element={<Dashboard />} /> {/* Dashboard */}
       <Route path="/training" element={<TrainingSelector />} /> {/* Rutinas */}
-      <Route path="/objetivos" element={<Objetivos />} /> {/* NUEVO - Ruta de Objetivos */}
+      <Route path="/objetivos" element={<Objetivos />} /> {/* Ruta de Objetivos */}
+      <Route path="/perfil-corporal" element={<PerfilCorporal />} /> {/* Ruta de Perfil Corporal */}
     </Route>
   )
 );

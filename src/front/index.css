@@ -3,7 +3,7 @@ body {
 }
 
 .carousel-small img {
-  height: 400px; /* puedes ajustar el valor */
+  height: 400px; /* revisar si es el tamaño correcto */
   object-fit: cover; /* mantiene la proporción sin deformar */
   border-radius: 10px;
 }

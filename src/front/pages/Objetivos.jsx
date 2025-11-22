@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Target, TrendingUp, Award, Plus, X, Trash2, CheckCircle, Check } from 'lucide-react';
+import { Target, TrendingUp, Award, Plus, X, Trash2, CheckCircle, Check, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import '../Objetivos.css';
 
 const Objetivos = () => {
+    const navigate = useNavigate();
+
     const [objetivos, setObjetivos] = useState([
         {
             id: 1,
@@ -106,7 +109,6 @@ const Objetivos = () => {
         }));
     };
 
-    //Marcar como completado manualmente
     const marcarComoCompletado = (id) => {
         setObjetivos(objetivos.map(obj => {
             if (obj.id === id) {
@@ -125,13 +127,22 @@ const Objetivos = () => {
     return (
         <div className="objetivos-container">
             <div className="objetivos-wrapper">
-                {/* Header */}
-                <div className="objetivos-header">
-                    <h1 className="objetivos-title">
-                        <Target className="icon-large" />
-                        Mis Objetivos
-                    </h1>
-                    <p className="objetivos-subtitle">Establece metas y alcanza tu mejor versión</p>
+                {/* Header con botón */}
+                <div className="objetivos-header-with-button">
+                    <div className="objetivos-header-content">
+                        <h1 className="objetivos-title">
+                            <Target className="icon-large" />
+                            Mis Objetivos
+                        </h1>
+                        <p className="objetivos-subtitle">Establece metas y alcanza tu mejor versión</p>
+                    </div>
+                    <button
+                        className="btn-perfil-corporal-main"
+                        onClick={() => navigate('/perfil-corporal')}
+                    >
+                        <User className="icon-small" />
+                        <span>Mi Perfil Corporal</span>
+                    </button>
                 </div>
 
                 {/* Stats Cards */}
@@ -255,13 +266,12 @@ const Objetivos = () => {
                                     </div>
                                 </div>
 
-                                {/* ✨ NUEVO: Botón para marcar como completado */}
                                 <button
-                                    onClick={() => Completado(obj.id)}
+                                    onClick={() => marcarComoCompletado(obj.id)}
                                     className={`btn-completar ${obj.completado ? 'btn-desmarcar' : ''}`}
                                 >
                                     <Check className="icon-small" />
-                                    {obj.completado ? 'Desmarcar como completado' : 'Completado'}
+                                    {obj.completado ? 'Desmarcar como completado' : 'Marcar como completado'}
                                 </button>
 
                                 <div className="objetivo-footer">
@@ -335,7 +345,7 @@ const Objetivos = () => {
 
                                 <div className="form-row">
                                     <div className="form-group">
-                                        <label>Valor Inicial</label>
+                                        <label>Valor Actual</label>
                                         <input
                                             type="number"
                                             value={nuevoObjetivo.actual}
