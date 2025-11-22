@@ -1,11 +1,29 @@
 body {
-  background-color: #2f509e;
+  margin: 0;
+  padding-top: 90px;
+  background-color: #1b3674;
 }
 
+<<<<<<< HEAD
 .carousel-small img {
   height: 400px; /* revisar si es el tamaño correcto */
   object-fit: cover; /* mantiene la proporción sin deformar */
   border-radius: 10px;
+=======
+.carousel-big {
+  margin-top: -96px !important; /* Ajustar a la altura REAL del navbar */
+  position: relative;
+  z-index: 1;
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+>>>>>>> 11dbc041c12cf410ca1e18b33e72aa4f4923da84
 }
 
 /* Estilos adicionales para el registro */
@@ -51,4 +69,57 @@ body {
     margin: 1rem;
     padding: 2rem !important;
   }
+}
+Footer {
+  background-color: #1b3674;
+}
+/* Card principal estilo glass */
+.modern-card {
+  max-width: 550px;
+  background: rgba(15, 23, 42, 0.35);
+  border-radius: 18px;
+  backdrop-filter: blur(14px);
+  padding: 2rem;
+  margin-top: 80px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Select moderno */
+.modern-select {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+.modern-select:focus {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Botón estilo glass */
+.btn-glass {
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 0.7rem;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.3);
+}
+
+/* Tarjeta del resultado */
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../Training.css';
 
 const TrainingSelector = () => {
     const [objetivo, setObjetivo] = useState("");
@@ -9,21 +10,15 @@ const TrainingSelector = () => {
         try {
             const URL = import.meta.env.VITE_BACKEND_URL + "/api/training/rutina";
 
-            console.log("Llamando a:", URL);
-
             const response = await fetch(URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ objetivo, musculo })
             });
 
-            if (!response.ok) {
-                throw new Error("Error en la petición");
-            }
+            if (!response.ok) throw new Error("Error en la petición");
 
             const data = await response.json();
-            console.log("Respuesta backend:", data);
-
             setResultado(data);
         } catch (error) {
             console.error("Error en obtenerRutina:", error);
@@ -31,12 +26,14 @@ const TrainingSelector = () => {
     };
 
     return (
-        <div className="container mt-5">
-            <h2 className="text-center mb-4">Selecciona tu rutina</h2>
+        <div className="container mt-5 modern-card p-4">
+            <h2 className="text-center mb-4 fw-bold text-white">
+                Selecciona tu rutina
+            </h2>
 
             <div className="mb-3">
-                <label className="form-label">Objetivo</label>
-                <select className="form-select" onChange={(e) => setObjetivo(e.target.value)}>
+                <label className="form-label text-white">Objetivo</label>
+                <select className="form-select modern-select" onChange={(e) => setObjetivo(e.target.value)}>
                     <option value="">Selecciona...</option>
                     <option value="bajar_peso">Bajar de peso</option>
                     <option value="ganar_masa">Ganar masa muscular</option>
@@ -44,8 +41,8 @@ const TrainingSelector = () => {
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Grupo muscular</label>
-                <select className="form-select" onChange={(e) => setMusculo(e.target.value)}>
+                <label className="form-label text-white">Grupo muscular</label>
+                <select className="form-select modern-select" onChange={(e) => setMusculo(e.target.value)}>
                     <option value="">Selecciona...</option>
                     <option value="pecho">Pecho</option>
                     <option value="espalda">Espalda</option>
@@ -57,7 +54,7 @@ const TrainingSelector = () => {
             </div>
 
             <button
-                className="btn btn-primary w-100"
+                className="btn btn-glass w-100 mt-2"
                 onClick={obtenerRutina}
                 disabled={!objetivo || !musculo}
             >
@@ -65,9 +62,9 @@ const TrainingSelector = () => {
             </button>
 
             {resultado && (
-                <div className="card mt-4">
-                    <div className="card-body">
-                        <h4 className="card-title text-capitalize">
+                <div className="card glass-card mt-4">
+                    <div className="card-body text-white">
+                        <h4 className="card-title text-capitalize fw-bold">
                             Rutina para {resultado.musculo.replace("_", " ")}
                         </h4>
                         <ul>
