@@ -1,50 +1,102 @@
-/* Card principal estilo glass */
+/* CARD PRINCIPAL */
 .modern-card {
-  max-width: 550px;
-  background: rgba(15, 23, 42, 0.35);
-  border-radius: 18px;
-  backdrop-filter: blur(14px);
-  padding: 2rem;
-  margin-top: 80px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 25px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* SELECT CON ESTILO MODERNO */
+.modern-select {
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.modern-select:focus {
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* CARD DE LOS EJERCICIOS */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* CONTENEDOR DE LOS EJERCICIOS */
+.exercise-item {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 15px;
+  transition: 0.3s ease-in-out;
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Select moderno */
-.modern-select {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-}
-.modern-select:focus {
+.exercise-item:hover {
+  transform: translateY(-4px);
   background: rgba(255, 255, 255, 0.15);
-  color: white;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
 }
 
-/* Botón estilo glass */
+/* IMÁGENES */
+.glass-img {
+  width: 100%;
+  border-radius: 14px;
+  margin-top: 12px;
+  transition: 0.3s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.glass-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25);
+}
+
+/* VIDEOS */
+.glass-video {
+  border-radius: 14px;
+  margin-top: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: 0.3s ease-in-out;
+}
+
+.glass-video:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25);
+}
+
+/* BOTÓN GLASS */
 .btn-glass {
-  background: rgba(255, 255, 255, 0.18);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
-  padding: 0.7rem;
-  font-weight: 600;
-  transition: 0.25s;
+  transition: 0.25s ease;
 }
 
 .btn-glass:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.22) !important;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25);
 }
 
-/* Tarjeta del resultado */
-.glass-card {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .glass-video {
+    height: 200px;
+  }
 }
