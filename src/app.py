@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+from flask import request
 import os
 from flask import Flask, jsonify, send_from_directory
 from flask_migrate import Migrate
@@ -11,8 +12,12 @@ from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
 from api.training_routes import training
+from api.alimentacion_routes import alimentacion
+
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
+
 # CORS Configuration - ARREGLADO
 CORS(app,
      resources={r"/*": {"origins": "*"}},
@@ -22,16 +27,14 @@ CORS(app,
 
 # agregado por Fernando preguntar e investigar mas sobre blueprint
 app.register_blueprint(training, url_prefix="/api/training")
+# agregado por Andres, blueprint de alimentacion
+app.register_blueprint(alimentacion, url_prefix="/api")
+
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-app.url_map.strict_slashes = False
 
 # Database configuration
 db_url = os.getenv("DATABASE_URL")
