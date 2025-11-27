@@ -1,4 +1,5 @@
 .navbar {
+  min-height: 96px;
   color: #ffffff !important;
   position: fixed;
   top: 0;

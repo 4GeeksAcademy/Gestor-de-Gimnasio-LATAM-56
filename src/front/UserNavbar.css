@@ -1,0 +1,51 @@
+/* ---------------------------- */
+/* USER NAVBAR - CLEAN STYLE    */
+/* ---------------------------- */
+
+.user-navbar-clean {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0f172a;
+  transition: all 0.3s ease;
+}
+
+.user-navbar-scrolled {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.user-navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.user-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.user-brand-text {
+  color: white;
+}
+
+.user-brand-highlight {
+  color: #3b82f6;
+}
+
+/* Menu Desktop */
+.user-navbar-menu {
+  display: flex;
+  gap: 2.5r;
+}
