@@ -1,0 +1,95 @@
+.footer-glass {
+  background: rgba(15, 23, 42, 0.35)
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 40px 20px;
+  color: #ffffff;
+  margin-top: 40px;
+  box-shadow: 0 -6px 22px rgba(0, 0, 0, 0.25);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.footer-slogan {
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.footer-section h3 {
+  font-weight: 600;
+  color: #cfe3ff;
+  margin-bottom: 12px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+  opacity: 0.85;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.footer-section ul li:hover {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+.footer-socials i {
+  font-size: 28px;
+  margin-right: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+.footer-socials i:hover {
+  opacity: 1;
+  transform: translateY(-3px) scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 12px;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-content {
+    text-align: center;
+  }
+
+  .footer-socials i {
+    font-size: 26px;
+  }
+}
