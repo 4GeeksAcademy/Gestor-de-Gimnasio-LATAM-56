@@ -203,25 +203,32 @@
   gap: 1.5rem;
 }
 
+/* ===== TARJETAS DE OBJETIVOS CON ESTILO GLASS ===== */
 .objetivo-card {
-  background: white;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 25px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease-in-out;
 }
 
 .objetivo-card:hover {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .objetivo-completado {
-  border: 4px solid #22c55e;
+  border: 2px solid rgba(34, 197, 94, 0.8);
+  background: rgba(34, 197, 94, 0.08);
 }
 
 .badge-completado {
-  background: #22c55e;
+  background: rgba(34, 197, 94, 0.85);
   color: white;
   text-align: center;
   padding: 0.5rem;
@@ -232,6 +239,8 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 /* Objetivo Header */
@@ -276,14 +285,14 @@
 
 .objetivo-titulo {
   font-weight: bold;
-  color: #1f2937;
+  color: #ffffff;
   font-size: 1.125rem;
   margin: 0;
 }
 
 .categoria-nombre {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .btn-delete {
@@ -308,16 +317,16 @@
   justify-content: space-between;
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .progreso-porcentaje {
   font-weight: bold;
-  color: #1f2937;
+  color: #ffffff;
 }
 
 .progreso-bar-bg {
-  background: #e5e7eb;
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
   height: 1rem;
   overflow: hidden;
@@ -336,7 +345,7 @@
 
 .objetivo-actualizar label {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.8);
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -348,40 +357,47 @@
 
 .input-progreso {
   flex: 1;
-  border: 2px solid #d1d5db;
-  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
 }
 
 .input-progreso:focus {
   outline: none;
-  border-color: #3b82f6;
+  background: rgba(0, 0, 0, 0.55);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .input-progreso:disabled {
-  background: #f3f4f6;
+  background: rgba(0, 0, 0, 0.3);
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .unidad-badge {
-  background: #f3f4f6;
+  background: rgba(255, 255, 255, 0.12);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  color: #374151;
+  color: #ffffff;
   font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 /* Botón de marcar como completado */
 .btn-completar {
   width: 100%;
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  background: rgba(34, 197, 94, 0.85);
   color: white;
   font-weight: bold;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  border: none;
+  border: 1px solid rgba(34, 197, 94, 0.5);
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -389,21 +405,26 @@
   justify-content: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
 }
 
 .btn-completar:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.95);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
 }
 
 .btn-desmarcar {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.85);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
 .btn-desmarcar:hover {
-  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.95);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
 }
 
 /* Footer */
@@ -411,15 +432,15 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.875rem;
-  color: #6b7280;
-  border-top: 1px solid #e5e7eb;
+  color: rgba(255, 255, 255, 0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   padding-top: 1rem;
 }
 
 .footer-label {
   display: block;
   font-weight: 600;
-  color: #1f2937;
+  color: #ffffff;
 }
 
 .footer-value {

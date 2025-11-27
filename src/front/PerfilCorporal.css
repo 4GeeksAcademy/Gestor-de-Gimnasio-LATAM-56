@@ -60,7 +60,7 @@
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
 }
 
-/* Stats Rápidas */
+/* Stats Rápidas - MANTENER CON COLORES */
 .stats-rapidas {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -69,7 +69,6 @@
 }
 
 .stat-card-rapida {
-  background: white;
   border-radius: 1rem;
   padding: 1.5rem;
   display: flex;
@@ -83,30 +82,29 @@
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
+/* Colores específicos para cada stat card */
+.stat-card-rapida.peso {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.stat-card-rapida.altura {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.stat-card-rapida.imc {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.stat-card-rapida.fecha {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
 .stat-icon-rapida {
   width: 3rem;
   height: 3rem;
   padding: 0.75rem;
   border-radius: 0.75rem;
-}
-
-.stat-card-rapida.peso .stat-icon-rapida {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
-}
-
-.stat-card-rapida.altura .stat-icon-rapida {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-  color: white;
-}
-
-.stat-card-rapida.imc .stat-icon-rapida {
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  color: white;
-}
-
-.stat-card-rapida.fecha .stat-icon-rapida {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  background: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
@@ -118,20 +116,21 @@
 
 .stat-label-rapida {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 0.25rem;
 }
 
 .stat-value-rapida {
   font-size: 1.75rem;
   font-weight: bold;
-  color: #1f2937;
+  color: white;
 }
 
 .stat-categoria {
   font-size: 0.875rem;
   font-weight: 600;
   margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .stat-cambio {
@@ -141,36 +140,39 @@
 }
 
 .stat-cambio.positivo {
-  color: #22c55e;
+  color: #dcfce7;
 }
 
 .stat-cambio.negativo {
-  color: #ef4444;
+  color: #fecaca;
 }
 
-/* Secciones */
+/* Secciones - ESTILO GLASS */
 .seccion-datos {
-  background: white;
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 1rem;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 .seccion-titulo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #1f2937;
+  color: #ffffff;
   margin-bottom: 1.5rem;
 }
 
 .subseccion-titulo {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #374151;
+  color: rgba(255, 255, 255, 0.9);
   margin: 1.5rem 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Datos Grid */
@@ -189,13 +191,15 @@
 .dato-item label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 0.5rem;
 }
 
 .dato-input {
   padding: 0.75rem;
-  border: 2px solid #e5e7eb;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.5rem;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -203,13 +207,15 @@
 
 .dato-input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: rgba(0, 0, 0, 0.55);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .dato-input:disabled {
-  background: #f3f4f6;
+  background: rgba(0, 0, 0, 0.3);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Medidas Grid */
@@ -228,13 +234,15 @@
 .medida-item label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 0.5rem;
 }
 
 .medida-input {
   padding: 0.625rem;
-  border: 2px solid #e5e7eb;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.5rem;
   font-size: 0.95rem;
   transition: all 0.3s ease;
@@ -242,13 +250,15 @@
 
 .medida-input:focus {
   outline: none;
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  background: rgba(0, 0, 0, 0.55);
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
 }
 
 .medida-input:disabled {
-  background: #f9fafb;
+  background: rgba(0, 0, 0, 0.3);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Botón Guardar */
@@ -307,6 +317,9 @@
 /* Tabla Historial */
 .historial-tabla-container {
   overflow-x: auto;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem;
 }
 
 .historial-tabla {
@@ -315,25 +328,25 @@
 }
 
 .historial-tabla thead {
-  background: #f9fafb;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .historial-tabla th {
   padding: 1rem;
   text-align: left;
   font-weight: 600;
-  color: #374151;
-  border-bottom: 2px solid #e5e7eb;
+  color: rgba(255, 255, 255, 0.95);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 .historial-tabla td {
   padding: 1rem;
-  border-bottom: 1px solid #f3f4f6;
-  color: #6b7280;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .historial-tabla tbody tr:hover {
-  background: #f9fafb;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .cambio-badge {
@@ -345,17 +358,18 @@
 }
 
 .cambio-badge.positivo {
-  background: #dcfce7;
-  color: #166534;
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.4);
 }
 
 .cambio-badge.negativo {
-  background: #fee2e2;
-  color: #991b1b;
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 /* Modal */
-.modal-overlay-perfil {/* Modal */
 .modal-overlay-perfil {
   position: fixed;
   inset: 0;
@@ -369,8 +383,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-historial {
