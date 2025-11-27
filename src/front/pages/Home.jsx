@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { Link } from "react-router-dom"
 
 export const Home = () => {
 
@@ -19,12 +20,12 @@ export const Home = () => {
 			return data
 
 		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
+			if (error.message)
+				throw new Error(
+					`Could not fetch the message from the backend.
+					Please check if the backend is running and the backend port is public.`
+				)
 		}
-
 	}
 
 	useEffect(() => {
@@ -33,7 +34,9 @@ export const Home = () => {
 
 	return (
 		<div className="text-center mt-5">
-			<div id="carouselExampleControls" className="carousel slide carousel-big " data-bs-ride="carousel">
+
+			{/* Carousel */}
+			<div id="carouselExampleControls" className="carousel slide carousel-big" data-bs-ride="carousel">
 				<div className="carousel-inner">
 					<div className="carousel-item active">
 						<img src="/imagen1.jpg" className="d-block w-100" alt="..." />
@@ -45,49 +48,50 @@ export const Home = () => {
 						<img src="/imagen3.jpg" className="d-block w-100" alt="..." />
 					</div>
 				</div>
+
 				<button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
 					<span className="carousel-control-prev-icon" aria-hidden="true"></span>
 					<span className="visually-hidden">Previous</span>
 				</button>
+
 				<button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
 					<span className="carousel-control-next-icon" aria-hidden="true"></span>
 					<span className="visually-hidden">Next</span>
 				</button>
 			</div>
-			<div className="d-flex justify-content-center">
-				<div className="card-glass" style={{ width: "20rem" }}>
-					<img src="/rutinas.png" className="card-img-top" alt="Clases" />
-					<div className="card-body bg-primary">
-						<h5 className="card-title">Rutinas</h5>
-						<p className="card-text">Disfruta de clases de grupo divertidas y efectivas.</p>
-						<a href="#" className="btn btn-primary">Ver más cosas</a>
+
+			<div className="d-flex flex-column align-items-center gap-4 mt-4">
+
+				<div className="card-small d-flex align-items-center">
+					<img src="/rutinas.png" className="card-small-img" alt="Rutinas" />
+					<div className="card-small-body">
+						<h5 className="card-small-title">Rutinas</h5>
+						<p className="card-small-text">Aprende a entrenar correctamente y construye un plan adaptado a tus metas.</p>
+						<Link to="/training" className="btn-home-small">Ver más</Link>
 					</div>
 				</div>
-				<div>
-					<div className="card-glass" style={{ width: "20rem" }}>
-						<img src="/alimentacion.png" className="card-img-top" alt="Clases" />
-						<div className="card-body bg-primary">
-							<h5 className="card-title">Alimentacion</h5>
-							<p className="card-text">Disfruta de clases de grupo divertidas y efectivas.</p>
-							<a href="#" className="btn btn-primary">Ver más</a>
-						</div>
+
+				<div className="card-small d-flex align-items-center">
+					<img src="/alimentacion.png" className="card-small-img" alt="Alimentación" />
+					<div className="card-small-body">
+						<h5 className="card-small-title">Alimentación</h5>
+						<p className="card-small-text">Descubre consejos fáciles para mejorar tu nutrición sin complicaciones.</p>
+						<Link to="/alimentacion" className="btn-home-small">Ver más</Link>
 					</div>
 				</div>
-				<div>
-					<div className="card-glass" style={{ width: "20rem" }}>
-						<img src="/objetivos.png" className="card-img-top" alt="Clases" />
-						<div className="card-body bg-primary">
-							<h5 className="card-title">Objetivos</h5>
-							<p className="card-text">Disfruta de clases de grupo divertidas y efectivas.</p>
-							<a href="#" className="btn btn-primary">Ver más</a>
-						</div>
+
+				<div className="card-small d-flex align-items-center">
+					<img src="/objetivos.png" className="card-small-img" alt="Objetivos" />
+					<div className="card-small-body">
+						<h5 className="card-small-title">Objetivos</h5>
+						<p className="card-small-text">Define tu meta y sigue un camino claro hacia una mejor versión de ti.</p>
+						<Link to="/objetivos" className="btn-home-small">Ver más</Link>
 					</div>
 				</div>
 
 			</div>
 
 
-
 		</div>
-	);
-}; 
+	)
+}

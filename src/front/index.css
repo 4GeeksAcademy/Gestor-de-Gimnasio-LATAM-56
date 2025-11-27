@@ -1,27 +1,90 @@
+/* ===== BASE ===== */
 body {
   margin: 0;
   padding-top: 90px;
   background-color: #1b3674;
 }
 
-.carousel-small img {
-  height: 400px; /* revisar si es el tamaño correcto */
-  object-fit: cover; /* mantiene la proporción sin deformar */
-  border-radius: 10px;
-  .carousel-big {
-    margin-top: -96px !important; /* Ajustar a la altura REAL del navbar */
-    position: relative;
-    z-index: 1;
+/* ===== CARDS GLASSMORPHISM CORREGIDAS ===== */
+.card-small {
+  width: 300px;         /* 🔥 tamaño más pequeño */
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-small:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+.card-small-img {
+  width: 70px;          /* 🔥 imagen más pequeña */
+  height: 70px;
+  border-radius: 14px;
+  object-fit: cover;
+
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+}
+
+.card-small-body {
+  text-align: left;
+}
+
+.card-small-title {
+  font-size: 1.1rem;     /* 🔥 más pequeño */
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.card-small-text {
+  font-size: 0.85rem;    /* 🔥 más pequeño */
+  color: #eaeaea;
+  margin: 4px 0 12px;
+}
+
+/* Botón */
+.btn-home-small {
+  padding: 5px 12px;     /* 🔥 más pequeño */
+  border-radius: 12px;
+  text-decoration: none;
+  background: rgba(13, 110, 253, 0.75);
+  color: #fff;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.btn-home-small:hover {
+  background: rgba(13, 110, 253, 0.95);
+  transform: scale(1.05);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .card-small {
+    width: 90%;
   }
 
-  .card-glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(14px);
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    padding: 1rem;
+  .card-small-img {
+    width: 60px;
+    height: 60px;
   }
+}
+
 
   /* Estilos adicionales para el registro */
   .min-vh-100 {
