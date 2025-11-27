@@ -1,0 +1,182 @@
+/* =============================
+   CONTENEDOR GENERAL
+   ============================= */
+.contact-wrapper {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
+}
+
+/* CARD PRINCIPAL */
+.contact-card {
+  display: flex;
+  width: 100%;
+  max-width: 1300px;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  /* GLASS */
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* =============================
+   PANEL IZQUIERDO
+   ============================= */
+.contact-info-panel {
+  width: 35%;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3rem 2rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.contact-info-panel h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #93c5fd;
+  margin-bottom: 0.5rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.info-item i {
+  font-size: 1.3rem;
+  color: #60a5fa;
+}
+
+.info-hours p {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0.25rem 0;
+}
+
+.social-links {
+  margin-top: auto;
+  display: flex;
+  gap: 1rem;
+  font-size: 1.4rem;
+}
+
+.social-links i {
+  cursor: pointer;
+  color: #93c5fd;
+  transition: 0.25s ease;
+}
+
+.social-links i:hover {
+  transform: scale(1.25);
+  color: white;
+}
+
+/* =============================
+   PANEL DERECHO (FORMULARIO)
+   ============================= */
+.contact-form {
+  width: 65%;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-form h1 {
+  color: white;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* FILAS */
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* INPUTS */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-group label {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.85rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  background: rgba(0, 0, 0, 0.55);
+  border-color: #60a5fa;
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
+}
+
+/* Textarea */
+.contact-form textarea {
+  height: 140px;
+  resize: none;
+}
+
+/* BOTÓN */
+.send-btn {
+  align-self: flex-end;
+  padding: 0.9rem 2rem;
+  border: none;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border-radius: 0.65rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+}
+
+/* =============================
+   RESPONSIVE
+   ============================= */
+@media (max-width: 900px) {
+  .contact-card {
+    flex-direction: column;
+  }
+
+  .contact-info-panel,
+  .contact-form {
+    width: 100%;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+}

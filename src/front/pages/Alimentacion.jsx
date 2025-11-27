@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
-import "./Alimentacion.css";
+import "../Alimentacion.css";
 
 const metas = { bajar: "Bajar peso", mantener: "Mantener peso", subir: "Subir peso" };
 const actividades = { sedentaria: "Sedentaria", ligera: "Ligera", moderada: "Moderada", intensa: "Intensa" };

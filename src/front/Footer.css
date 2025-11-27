@@ -1,12 +1,13 @@
 .footer-glass {
-  background: rgba(15, 23, 42, 0.35)
+  background: rgba(15, 23, 42, 0.35); /* fondo semi-transparente */
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   padding: 40px 20px;
   color: #ffffff;
   margin-top: 40px;
-  box-shadow: 0 -6px 22px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.35); /* más profundidad */
+  border-radius: 16px 16px 0 0; /* bordes superiores redondeados */
 }
 
 .footer-content {
@@ -71,7 +72,7 @@
 .footer-socials i:hover {
   opacity: 1;
   transform: translateY(-3px) scale(1.1);
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
 }
 
 .footer-bottom {
