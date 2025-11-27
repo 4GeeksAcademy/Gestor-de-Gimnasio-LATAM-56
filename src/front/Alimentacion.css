@@ -1,0 +1,137 @@
+/* =====================================
+   CONTENEDOR GENERAL
+   ===================================== */
+.alimentacion-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  color: #fff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =====================================
+   FORMULARIO (GLASS + SOMBRAS)
+   ===================================== */
+.alimentacion-form {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  margin-bottom: 2.5rem;
+}
+
+.alimentacion-form h2 {
+  color: #93c5fd;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+/* =====================================
+   FORM GROUP
+   ===================================== */
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 1rem;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  background: rgba(0, 0, 0, 0.55);
+  border-color: #60a5fa;
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
+}
+
+/* =====================================
+   BOTÓN SUBMIT (GRADIENT + SOMBRA)
+   ===================================== */
+.btn-submit {
+  width: 100%;
+  padding: 0.9rem 1.4rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+}
+
+/* =====================================
+   RESULTADOS DE DIETAS
+   ===================================== */
+.dietas-result {
+  margin-top: 2rem;
+}
+
+.dieta-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.dieta-card h3 {
+  margin-bottom: 0.75rem;
+  color: #60a5fa;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.dieta-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.dieta-card ul li {
+  padding: 0.3rem 0;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* =====================================
+   RESPONSIVE
+   ===================================== */
+@media (max-width: 600px) {
+  .alimentacion-form {
+    padding: 1.5rem;
+  }
+
+  .btn-submit {
+    font-size: 1rem;
+  }
+}

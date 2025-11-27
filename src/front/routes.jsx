@@ -16,6 +16,7 @@ import TrainingSelector from "./pages/TrainingSelector";
 import Objetivos from "./pages/Objetivos";
 import PerfilCorporal from "./pages/PerfilCorporal";
 import Alimentacion from "./pages/Alimentacion";
+import Contacto from "./pages/Contacto";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ export const router = createBrowserRouter(
       <Route path="/objetivos" element={<Objetivos />} /> {/* Ruta de Objetivos */}
       <Route path="/perfil-corporal" element={<PerfilCorporal />} /> {/* Ruta de Perfil Corporal */}
       <Route path="/alimentacion" element={<Alimentacion />} />
+      <Route path="/contacto" element={<Contacto />} />
     </Route>
   )
 );
