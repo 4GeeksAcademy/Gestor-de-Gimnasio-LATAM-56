@@ -7,11 +7,29 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 
 export const Layout = () => {
     const { store } = useGlobalReducer();
-    const token = store.token || localStorage.getItem("token");
+
+    const rawToken = store.token || localStorage.getItem("token");
+    const token =
+        rawToken &&
+            rawToken !== "null" &&
+            rawToken !== "undefined" &&
+            rawToken !== ""
+            ? rawToken
+            : null;
 
     return (
         <ScrollToTop>
-            {token ? <UserNavbar /> : <Navbar />}
+
+            {/* ⬇️ Aquí va lo que debes pegar */}
+            {!token && (
+                <div style={{ display: "block" }}>
+                    <Navbar />
+                </div>
+            )}
+
+            {token && <UserNavbar />}
+            {/* ⬆️ Esta es la parte nueva */}
+
             <Outlet />
             <Footer />
         </ScrollToTop>

@@ -11,7 +11,7 @@ export const Navbar = () => {
 						<img
 							src="/logo1.png"
 							alt="Logo del gimnasio"
-							height="70"
+							height="90"
 							style={{ cursor: "pointer" }}
 						/>
 					</Link>
