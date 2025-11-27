@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BACKEND_URL from "../components/BackendURL.jsx";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 import '../Login.css';
 
 export default function Login() {
@@ -11,6 +12,8 @@ export default function Login() {
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { dispatch } = useGlobalReducer();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,12 +34,13 @@ export default function Login() {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
 
-                setSuccess('¡Login exitoso! Bienvenido ' + data.user.email);
+                // ACTUALIZAR GLOBAL STATE
+                dispatch({ type: "SET_TOKEN", payload: data.token });
+                dispatch({ type: "SET_USER", payload: data.user });
 
-                setTimeout(() => {
-                    navigate('/userhome');//Fernando cambio la ruta hacia el dashboard
-                }, 1000);
-            } else {
+                navigate('/userhome', { replace: true });
+            }
+            else {
                 setError(data.message || 'Error al iniciar sesión');
             }
         } catch (err) {
