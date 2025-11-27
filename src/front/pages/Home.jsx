@@ -66,7 +66,12 @@ export const Home = () => {
 					<img src="/rutinas.png" className="card-small-img" alt="Rutinas" />
 					<div className="card-small-body">
 						<h5 className="card-small-title">Rutinas</h5>
-						<p className="card-small-text">Aprende a entrenar correctamente y construye un plan adaptado a tus metas.</p>
+						<p className="card-small-text">
+							Accede a programas de entrenamiento diseñados con precisión para maximizar
+							tus resultados. Descubre rutinas elegantes, eficientes y adaptadas a tus
+							objetivos, creadas para elevar tu rendimiento y transformar tu cuerpo con
+							un enfoque moderno y profesional.
+						</p>
 						<Link to="/training" className="btn-home-small">Ver más</Link>
 					</div>
 				</div>
@@ -75,7 +80,12 @@ export const Home = () => {
 					<img src="/alimentacion.png" className="card-small-img" alt="Alimentación" />
 					<div className="card-small-body">
 						<h5 className="card-small-title">Alimentación</h5>
-						<p className="card-small-text">Descubre consejos fáciles para mejorar tu nutrición sin complicaciones.</p>
+						<p className="card-small-text">
+							Explora una guía nutricional cuidadosamente elaborada para optimizar tu
+							bienestar. Aprende a equilibrar tus comidas, seleccionar ingredientes de
+							calidad y crear hábitos sostenibles que impulsen una vida más saludable,
+							energética y sofisticada.
+						</p>
 						<Link to="/alimentacion" className="btn-home-small">Ver más</Link>
 					</div>
 				</div>
@@ -84,7 +94,12 @@ export const Home = () => {
 					<img src="/objetivos.png" className="card-small-img" alt="Objetivos" />
 					<div className="card-small-body">
 						<h5 className="card-small-title">Objetivos</h5>
-						<p className="card-small-text">Define tu meta y sigue un camino claro hacia una mejor versión de ti.</p>
+						<p className="card-small-text">
+							Establece metas claras y personalizadas con una metodología enfocada en la
+							excelencia. Diseña tu camino hacia una mejor versión de ti mismo mediante
+							herramientas de seguimiento, planificación estratégica y una visión
+							orientada a resultados reales y duraderos.
+						</p>
 						<Link to="/objetivos" className="btn-home-small">Ver más</Link>
 					</div>
 				</div>
