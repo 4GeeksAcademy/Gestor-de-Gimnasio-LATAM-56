@@ -38,6 +38,7 @@ export const router = createBrowserRouter(
       <Route path="/training" element={<TrainingSelector />} /> {/* Rutinas */}
       <Route path="/objetivos" element={<Objetivos />} /> {/* Ruta de Objetivos */}
       <Route path="/perfil-corporal" element={<PerfilCorporal />} /> {/* Ruta de Perfil Corporal */}
+      <Route path="/alimentacion" element={<Alimentacion />} />
     </Route>
   )
 );
