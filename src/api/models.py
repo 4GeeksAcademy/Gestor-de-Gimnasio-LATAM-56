@@ -39,7 +39,7 @@ class Usuario(db.Model):
     """
     Modelo de Usuario para el sistema de registro del gimnasio
     """
-    __tablename__ = 'usuarios'
+    __tablename__ = 'usuarios'  # <-- ESTE ES EL NOMBRE REAL DE LA TABLA
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), nullable=False)
@@ -62,7 +62,6 @@ class Usuario(db.Model):
 
     def to_dict(self):
         """Convierte el objeto a diccionario (sin password)"""
-        # Manejo defensivo por si fecha_nacimiento o fecha_registro son None
         fecha_nac = self.fecha_nacimiento.isoformat() if self.fecha_nacimiento else None
         fecha_reg = self.fecha_registro.isoformat() if self.fecha_registro else None
 
@@ -80,19 +79,16 @@ class Usuario(db.Model):
     # Validaciones estáticas
     @staticmethod
     def validar_email(email):
-        """Valida formato de email"""
         patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         return re.match(patron, email) is not None
 
     @staticmethod
     def validar_telefono(telefono):
-        """Valida formato de teléfono (10 dígitos)"""
         telefono_limpio = re.sub(r'\s', '', telefono)
         return len(telefono_limpio) == 10 and telefono_limpio.isdigit()
 
     @staticmethod
     def validar_password(password):
-        """Valida fortaleza de contraseña"""
         if len(password) < 8:
             return False, "La contraseña debe tener al menos 8 caracteres"
         if not re.search(r'[A-Z]', password):
@@ -105,9 +101,9 @@ class Usuario(db.Model):
 
     def __repr__(self):
         return f'<Usuario {self.email}>'
+
+
 # ========== MODELO: OBJETIVO ==========
-
-
 class Objetivo(db.Model):
     """
     Modelo para almacenar objetivos personales de fitness
@@ -115,14 +111,15 @@ class Objetivo(db.Model):
     __tablename__ = 'objetivos'
 
     id = db.Column(db.Integer, primary_key=True)
+
+    # FIX: ForeignKey apuntando a 'usuarios.id'
     usuario_id = db.Column(db.Integer, db.ForeignKey(
-        'usuario.id'), nullable=False)
+        'usuarios.id'), nullable=False)
+
     titulo = db.Column(db.String(200), nullable=False)
-    # peso, fuerza, resistencia, flexibilidad, habitos
     categoria = db.Column(db.String(50), nullable=False)
     meta = db.Column(db.Float, nullable=False)
     actual = db.Column(db.Float, default=0)
-    # kg, min, reps, días, cm
     unidad = db.Column(db.String(20), nullable=False)
     fecha_inicio = db.Column(db.Date, default=datetime.utcnow)
     fecha_meta = db.Column(db.Date, nullable=False)
@@ -131,7 +128,6 @@ class Objetivo(db.Model):
         db.DateTime, default=datetime.utcnow)
     completado = db.Column(db.Boolean, default=False)
 
-    # Relación con Usuario
     usuario = db.relationship(
         'Usuario', backref=db.backref('objetivos', lazy=True))
 
@@ -152,23 +148,20 @@ class Objetivo(db.Model):
 
 # ========== MODELO: PERFIL CORPORAL ==========
 class PerfilCorporal(db.Model):
-    """
-    Modelo para almacenar datos corporales y medidas del usuario
-    """
     __tablename__ = 'perfil_corporal'
 
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey(
-        'usuario.id'), nullable=False, unique=True)
 
-    # Datos básicos
+    # FIX: Aquí también
+    usuario_id = db.Column(db.Integer, db.ForeignKey(
+        'usuarios.id'), nullable=False, unique=True)
+
     peso = db.Column(db.Float, default=0)
     altura = db.Column(db.Integer, default=0)
     edad = db.Column(db.Integer, default=0)
     genero = db.Column(db.String(20), default='masculino')
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Medidas corporales (en cm)
     cuello = db.Column(db.Float, default=0)
     pecho = db.Column(db.Float, default=0)
     cintura = db.Column(db.Float, default=0)
@@ -182,7 +175,6 @@ class PerfilCorporal(db.Model):
     antebrazo_izq = db.Column(db.Float, default=0)
     antebrazo_der = db.Column(db.Float, default=0)
 
-    # Relación con Usuario
     usuario = db.relationship('Usuario', backref=db.backref(
         'perfil_corporal', uselist=False))
 
@@ -212,21 +204,20 @@ class PerfilCorporal(db.Model):
 
 # ========== MODELO: HISTORIAL DE PROGRESO ==========
 class HistorialProgreso(db.Model):
-    """
-    Modelo para almacenar el historial de progreso corporal
-    """
     __tablename__ = 'historial_progreso'
 
     id = db.Column(db.Integer, primary_key=True)
+
+    # FIX: Igual aquí
     usuario_id = db.Column(db.Integer, db.ForeignKey(
-        'usuario.id'), nullable=False)
+        'usuarios.id'), nullable=False)
+
     fecha = db.Column(db.Date, nullable=False)
     peso = db.Column(db.Float, nullable=False)
     grasa_corporal = db.Column(db.Float, default=0)
     musculo = db.Column(db.Float, default=0)
     imc = db.Column(db.Float, default=0)
 
-    # Relación con Usuario
     usuario = db.relationship('Usuario', backref=db.backref(
         'historial_progreso', lazy=True))
 
