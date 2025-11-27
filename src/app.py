@@ -13,7 +13,8 @@ from api.models import db
 from api.routes import api
 from api.training_routes import training
 from api.alimentacion_routes import alimentacion
-
+from api.objetivos_routes import objetivos_bp
+from api.perfil_corporal_routes import perfil_bp
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -30,6 +31,8 @@ app.register_blueprint(training, url_prefix="/api/training")
 # agregado por Andres, blueprint de alimentacion
 app.register_blueprint(alimentacion, url_prefix="/api")
 
+app.register_blueprint(objetivos_bp, url_prefix="/api/objetivos")
+app.register_blueprint(perfil_bp, url_prefix="/api/perfil")
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
