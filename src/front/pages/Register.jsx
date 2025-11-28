@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BACKEND_URL from "../components/BackendURL.jsx";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 import '../Login.css';
 
 const Register = () => {
     const navigate = useNavigate();
+    const { dispatch } = useGlobalReducer();
 
     const [formData, setFormData] = useState({
         nombre: '',
@@ -90,8 +92,19 @@ const Register = () => {
                 return;
             }
 
+            // Guardar token y usuario en localStorage
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            // Actualizar estado global
+            dispatch({ type: "SET_TOKEN", payload: data.token });
+            dispatch({ type: "SET_USER", payload: data.user });
+
             setSuccess(true);
-            setTimeout(() => navigate('/login'), 1500);
+
+            setTimeout(() => {
+                navigate('/userhome', { replace: true });
+            }, 1500);
 
         } catch (error) {
             setErrors({ submit: 'Error de conexión con el servidor' });
@@ -222,7 +235,7 @@ const Register = () => {
 
                     {success && (
                         <div className="alert success">
-                            <p>¡Cuenta creada exitosamente!</p>
+                            <p>¡Cuenta creada exitosamente! Redirigiendo...</p>
                         </div>
                     )}
 
@@ -234,7 +247,7 @@ const Register = () => {
                 <div className="login-footer">
                     <p>
                         ¿Ya tienes cuenta?{' '}
-                        <button onClick={() => navigate('/')} className="link">
+                        <button onClick={() => navigate('/login')} className="link">
                             Iniciar Sesión
                         </button>
                     </p>

@@ -1,36 +1,48 @@
-import React, { useEffect } from "react"
+import React, { useEffect } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 
 export const Home = () => {
 
-	const { store, dispatch } = useGlobalReducer()
+	const { store, dispatch } = useGlobalReducer();
+	const navigate = useNavigate();
 
 	const loadMessage = async () => {
 		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
+			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file");
 
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
+			const response = await fetch(backendUrl + "/api/hello");
+			const data = await response.json();
 
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
+			if (response.ok) dispatch({ type: "set_hello", payload: data.message });
 
-			return data
+			return data;
 
 		} catch (error) {
 			if (error.message)
 				throw new Error(
 					`Could not fetch the message from the backend.
 					Please check if the backend is running and the backend port is public.`
-				)
+				);
 		}
-	}
+	};
 
 	useEffect(() => {
-		loadMessage()
-	}, [])
+		loadMessage();
+	}, []);
+
+	const handleCardClick = (path) => {
+		const token = localStorage.getItem("token");
+
+		if (!token) {
+			alert("⚠️ Debes iniciar sesión para acceder a esta sección");
+			navigate("/login");
+		} else {
+			navigate(path);
+		}
+	};
 
 	return (
 		<div className="text-center mt-5">
@@ -72,7 +84,12 @@ export const Home = () => {
 							objetivos, creadas para elevar tu rendimiento y transformar tu cuerpo con
 							un enfoque moderno y profesional.
 						</p>
-						<Link to="/training" className="btn-home-small">Ver más</Link>
+						<button
+							onClick={() => handleCardClick("/training")}
+							className="btn-home-small"
+						>
+							Ver más
+						</button>
 					</div>
 				</div>
 
@@ -86,7 +103,12 @@ export const Home = () => {
 							calidad y crear hábitos sostenibles que impulsen una vida más saludable,
 							energética y sofisticada.
 						</p>
-						<Link to="/alimentacion" className="btn-home-small">Ver más</Link>
+						<button
+							onClick={() => handleCardClick("/alimentacion")}
+							className="btn-home-small"
+						>
+							Ver más
+						</button>
 					</div>
 				</div>
 
@@ -100,13 +122,17 @@ export const Home = () => {
 							herramientas de seguimiento, planificación estratégica y una visión
 							orientada a resultados reales y duraderos.
 						</p>
-						<Link to="/objetivos" className="btn-home-small">Ver más</Link>
+						<button
+							onClick={() => handleCardClick("/objetivos")}
+							className="btn-home-small"
+						>
+							Ver más
+						</button>
 					</div>
 				</div>
 
 			</div>
 
-
 		</div>
-	)
-}
+	);
+};
