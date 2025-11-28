@@ -1,47 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Target, TrendingUp, Award, Plus, X, Trash2, CheckCircle, Check, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import BACKEND_URL from "../components/BackendURL.jsx";
 import '../Objetivos.css';
 
 const Objetivos = () => {
   const navigate = useNavigate();
 
-  const [objetivos, setObjetivos] = useState([
-    {
-      id: 1,
-      titulo: "Perder 10 kg",
-      categoria: "peso",
-      meta: 10,
-      actual: 6,
-      unidad: "kg",
-      fechaInicio: "2025-01-01",
-      fechaMeta: "2025-04-01",
-      completado: false
-    },
-    {
-      id: 2,
-      titulo: "Correr 5k en 25 min",
-      categoria: "resistencia",
-      meta: 25,
-      actual: 28,
-      unidad: "min",
-      fechaInicio: "2025-01-15",
-      fechaMeta: "2025-03-15",
-      completado: false
-    },
-    {
-      id: 3,
-      titulo: "Press de Banca 100kg",
-      categoria: "fuerza",
-      meta: 100,
-      actual: 85,
-      unidad: "kg",
-      fechaInicio: "2025-01-10",
-      fechaMeta: "2025-06-01",
-      completado: false
-    }
-  ]);
-
+  const [objetivos, setObjetivos] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [nuevoObjetivo, setNuevoObjetivo] = useState({
     titulo: '',
@@ -61,6 +28,186 @@ const Objetivos = () => {
     habitos: { color: 'bg-yellow-500', icon: '✅', nombre: 'Hábitos' }
   };
 
+  // ========== CARGAR OBJETIVOS AL INICIO ==========
+  useEffect(() => {
+    cargarObjetivos();
+  }, []);
+
+  const cargarObjetivos = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        alert('⚠️ Debes iniciar sesión');
+        navigate('/login');
+        return;
+      }
+
+      const response = await fetch(`${BACKEND_URL}/api/objetivos/`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.status === 401) {
+        alert('⚠️ Sesión expirada. Inicia sesión nuevamente.');
+        localStorage.removeItem('token');
+        navigate('/login');
+        return;
+      }
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setObjetivos(data);
+      } else {
+        console.error('Error al cargar objetivos:', data);
+      }
+    } catch (error) {
+      console.error('Error de conexión:', error);
+      alert('❌ Error al cargar objetivos. Verifica tu conexión.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ========== AGREGAR OBJETIVO ==========
+  const agregarObjetivo = async () => {
+    if (!nuevoObjetivo.titulo || !nuevoObjetivo.meta || !nuevoObjetivo.actual || !nuevoObjetivo.fechaMeta) {
+      alert('⚠️ Completa todos los campos');
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch(`${BACKEND_URL}/api/objetivos/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          titulo: nuevoObjetivo.titulo,
+          categoria: nuevoObjetivo.categoria,
+          meta: parseFloat(nuevoObjetivo.meta),
+          actual: parseFloat(nuevoObjetivo.actual),
+          unidad: nuevoObjetivo.unidad,
+          fechaInicio: nuevoObjetivo.fechaInicio,
+          fechaMeta: nuevoObjetivo.fechaMeta
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setObjetivos([...objetivos, data]);
+        setModalAbierto(false);
+        setNuevoObjetivo({
+          titulo: '',
+          categoria: 'peso',
+          meta: '',
+          actual: '',
+          unidad: 'kg',
+          fechaInicio: new Date().toISOString().split('T')[0],
+          fechaMeta: ''
+        });
+        alert('✅ Objetivo creado exitosamente');
+      } else {
+        alert('❌ Error al crear objetivo: ' + data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('❌ Error de conexión al crear objetivo');
+    }
+  };
+
+  // ========== ELIMINAR OBJETIVO ==========
+  const eliminarObjetivo = async (id) => {
+    if (!confirm('¿Estás seguro de eliminar este objetivo?')) return;
+
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch(`${BACKEND_URL}/api/objetivos/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setObjetivos(objetivos.filter(obj => obj.id !== id));
+        alert('✅ Objetivo eliminado');
+      } else {
+        alert('❌ Error al eliminar objetivo');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('❌ Error de conexión');
+    }
+  };
+
+  // ========== ACTUALIZAR PROGRESO ==========
+  const actualizarProgreso = async (id, nuevoValor) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch(`${BACKEND_URL}/api/objetivos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          actual: parseFloat(nuevoValor)
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setObjetivos(objetivos.map(obj => obj.id === id ? data : obj));
+      } else {
+        alert('❌ Error al actualizar progreso');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  // ========== MARCAR COMO COMPLETADO ==========
+  const marcarComoCompletado = async (id) => {
+    const objetivo = objetivos.find(obj => obj.id === id);
+
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch(`${BACKEND_URL}/api/objetivos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          completado: !objetivo.completado
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setObjetivos(objetivos.map(obj => obj.id === id ? data : obj));
+      } else {
+        alert('❌ Error al actualizar estado');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  // ========== CÁLCULOS ==========
   const calcularProgreso = (obj) => {
     if (obj.categoria === 'resistencia') {
       const progreso = Math.max(0, ((obj.actual - obj.meta) / obj.actual) * 100);
@@ -69,61 +216,24 @@ const Objetivos = () => {
     return Math.min(100, (obj.actual / obj.meta) * 100);
   };
 
-  const agregarObjetivo = () => {
-    if (nuevoObjetivo.titulo && nuevoObjetivo.meta && nuevoObjetivo.actual) {
-      setObjetivos([...objetivos, {
-        ...nuevoObjetivo,
-        id: Date.now(),
-        completado: false,
-        meta: parseFloat(nuevoObjetivo.meta),
-        actual: parseFloat(nuevoObjetivo.actual)
-      }]);
-      setModalAbierto(false);
-      setNuevoObjetivo({
-        titulo: '',
-        categoria: 'peso',
-        meta: '',
-        actual: '',
-        unidad: 'kg',
-        fechaInicio: new Date().toISOString().split('T')[0],
-        fechaMeta: ''
-      });
-    }
-  };
-
-  const eliminarObjetivo = (id) => {
-    setObjetivos(objetivos.filter(obj => obj.id !== id));
-  };
-
-  const actualizarProgreso = (id, nuevoValor) => {
-    setObjetivos(objetivos.map(obj => {
-      if (obj.id === id) {
-        const actualizado = { ...obj, actual: parseFloat(nuevoValor) };
-        const progreso = calcularProgreso(actualizado);
-        if (progreso >= 100) {
-          actualizado.completado = true;
-        }
-        return actualizado;
-      }
-      return obj;
-    }));
-  };
-
-  const marcarComoCompletado = (id) => {
-    setObjetivos(objetivos.map(obj => {
-      if (obj.id === id) {
-        return { ...obj, completado: !obj.completado };
-      }
-      return obj;
-    }));
-  };
-
-  const progresoGlobal = objetivos.length > 0 
-    ? objetivos.reduce((sum, obj) => sum + calcularProgreso(obj), 0) / objetivos.length 
+  const progresoGlobal = objetivos.length > 0
+    ? objetivos.reduce((sum, obj) => sum + calcularProgreso(obj), 0) / objetivos.length
     : 0;
 
   const objetivosCompletados = objetivos.filter(obj => obj.completado).length;
 
+  // ========== LOADING STATE ==========
+  if (loading) {
+    return (
+      <div className="objetivos-container">
+        <div className="text-center text-white">
+          <h2>Cargando objetivos...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  // ========== RENDER ==========
   return (
     <div className="objetivos-container">
       <div className="objetivos-wrapper">
@@ -136,7 +246,7 @@ const Objetivos = () => {
             </h1>
             <p className="objetivos-subtitle">Establece metas y alcanza tu mejor versión</p>
           </div>
-          <button 
+          <button
             className="btn-perfil-corporal"
             onClick={() => navigate('/perfil-corporal')}
           >
@@ -156,7 +266,7 @@ const Objetivos = () => {
               <TrendingUp className="stat-icon" />
             </div>
             <div className="progress-bar-container">
-              <div 
+              <div
                 className="progress-bar-fill"
                 style={{ width: `${progresoGlobal}%` }}
               />
@@ -207,7 +317,7 @@ const Objetivos = () => {
           {objetivos.map(obj => {
             const progreso = calcularProgreso(obj);
             const cat = categorias[obj.categoria];
-            
+
             return (
               <div
                 key={obj.id}
@@ -219,7 +329,7 @@ const Objetivos = () => {
                     ¡COMPLETADO!
                   </div>
                 )}
-                
+
                 <div className="objetivo-header">
                   <div className="objetivo-info">
                     <div className={`categoria-icon ${cat.color}`}>
@@ -324,7 +434,7 @@ const Objetivos = () => {
                   <input
                     type="text"
                     value={nuevoObjetivo.titulo}
-                    onChange={(e) => setNuevoObjetivo({...nuevoObjetivo, titulo: e.target.value})}
+                    onChange={(e) => setNuevoObjetivo({ ...nuevoObjetivo, titulo: e.target.value })}
                     placeholder="Ej: Perder 5 kg"
                     className="form-input"
                   />
@@ -334,7 +444,7 @@ const Objetivos = () => {
                   <label>Categoría</label>
                   <select
                     value={nuevoObjetivo.categoria}
-                    onChange={(e) => setNuevoObjetivo({...nuevoObjetivo, categoria: e.target.value})}
+                    onChange={(e) => setNuevoObjetivo({ ...nuevoObjetivo, categoria: e.target.value })}
                     className="form-input"
                   >
                     {Object.entries(categorias).map(([key, val]) => (
@@ -349,7 +459,7 @@ const Objetivos = () => {
                     <input
                       type="number"
                       value={nuevoObjetivo.actual}
-                      onChange={(e) => setNuevoObjetivo({...nuevoObjetivo, actual: e.target.value})}
+                      onChange={(e) => setNuevoObjetivo({ ...nuevoObjetivo, actual: e.target.value })}
                       className="form-input"
                       step="0.1"
                     />
@@ -359,7 +469,7 @@ const Objetivos = () => {
                     <input
                       type="number"
                       value={nuevoObjetivo.meta}
-                      onChange={(e) => setNuevoObjetivo({...nuevoObjetivo, meta: e.target.value})}
+                      onChange={(e) => setNuevoObjetivo({ ...nuevoObjetivo, meta: e.target.value })}
                       className="form-input"
                       step="0.1"
                     />
@@ -370,7 +480,7 @@ const Objetivos = () => {
                   <label>Unidad</label>
                   <select
                     value={nuevoObjetivo.unidad}
-                    onChange={(e) => setNuevoObjetivo({...nuevoObjetivo, unidad: e.target.value})}
+                    onChange={(e) => setNuevoObjetivo({ ...nuevoObjetivo, unidad: e.target.value })}
                     className="form-input"
                   >
                     <option value="kg">kg</option>
@@ -386,8 +496,9 @@ const Objetivos = () => {
                   <input
                     type="date"
                     value={nuevoObjetivo.fechaMeta}
-                    onChange={(e) => setNuevoObjetivo({...nuevoObjetivo, fechaMeta: e.target.value})}
+                    onChange={(e) => setNuevoObjetivo({ ...nuevoObjetivo, fechaMeta: e.target.value })}
                     className="form-input"
+                    min={new Date().toISOString().split('T')[0]}
                   />
                 </div>
               </div>

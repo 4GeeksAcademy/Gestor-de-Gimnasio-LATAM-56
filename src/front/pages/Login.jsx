@@ -14,7 +14,6 @@ export default function Login() {
     const navigate = useNavigate();
     const { dispatch } = useGlobalReducer();
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -34,13 +33,15 @@ export default function Login() {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
 
-                // ACTUALIZAR GLOBAL STATE
                 dispatch({ type: "SET_TOKEN", payload: data.token });
                 dispatch({ type: "SET_USER", payload: data.user });
 
-                navigate('/userhome', { replace: true });
-            }
-            else {
+                setSuccess('✅ Inicio de sesión exitoso. Redirigiendo...');
+                
+                setTimeout(() => {
+                    navigate('/userhome', { replace: true });
+                }, 1000);
+            } else {
                 setError(data.message || 'Error al iniciar sesión');
             }
         } catch (err) {

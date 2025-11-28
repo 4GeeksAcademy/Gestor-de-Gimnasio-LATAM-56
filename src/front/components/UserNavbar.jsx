@@ -1,86 +1,79 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../UserNavbar.css";
 import useGlobalReducer from "../hooks/useGlobalReducer";
-
+import '../UserNavbar.css';
 
 export const UserNavbar = () => {
-    const navigate = useNavigate();
-    const { dispatch } = useGlobalReducer();
+	const navigate = useNavigate();
+	const { store, dispatch } = useGlobalReducer();
 
+	const handleLogout = () => {
+		// Limpiar localStorage
+		localStorage.removeItem("token");
+		localStorage.removeItem("user");
 
-    const logout = () => {
-        // Remueve token o datos del usuario
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        dispatch({ type: "LOGOUT" });
-        navigate("/"); // lleva al home público
-    };
+		// Limpiar estado global
+		dispatch({ type: "LOGOUT" });
 
-    return (
-        <nav className="navbar user-navbar navbar-expand-lg">
-            <div className="container-fluid">
+		// Redirigir al home público
+		navigate("/", { replace: true });
+	};
 
-                <Link to="/userhome">
-                    <img
-                        src="/logo1.png"
-                        alt="Logo del gimnasio"
-                        height="90"
-                        style={{ cursor: "pointer" }}
-                    />
-                </Link>
+	return (
+		<nav className="navbar navbar-expand-lg navbar-dark fixed-top text-white">
+			<div className="container">
+				<div className="d-flex align-items-center">
+					<Link to="/userhome">
+						<img
+							src="/logo1.png"
+							alt="Logo del gimnasio"
+							height="90"
+							style={{ cursor: "pointer" }}
+						/>
+					</Link>
+					<div className="dropdown">
+						<button
+							className="btn btn-secondary dropdown-toggle"
+							type="button"
+							id="dropdownMenuButton"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
+							style={{ backgroundColor: "transparent", border: "none" }}
+						>
+							<span className="navbar-toggler-icon"></span>
+						</button>
 
-                <div className="dropdown">
-                    <button
-                        className="btn btn-secondary dropdown-toggle "
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        style={{ backgroundColor: "transparent", border: "none" }}
-                    >
-                        {/* Ícono tipo hamburguesa */}
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+						<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<li><Link className="dropdown-item" to="/userhome">Inicio</Link></li>
+							<li><Link className="dropdown-item" to="/training">Rutinas</Link></li>
+							<li><Link className="dropdown-item" to="/alimentacion">Alimentación</Link></li>
+							<li><Link className="dropdown-item" to="/objetivos">Objetivos</Link></li>
+							<li><Link className="dropdown-item" to="/perfil-corporal">Perfil Corporal</Link></li>
+							<li><Link className="dropdown-item" to="/contacto">Contacto</Link></li>
+							<li><hr className="dropdown-divider" /></li>
+							<li>
+								<button 
+									className="dropdown-item text-danger" 
+									onClick={handleLogout}
+								>
+									🚪 Cerrar Sesión
+								</button>
+							</li>
+						</ul>
+					</div>
+				</div>
 
-                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><Link className="dropdown-item" to="/">Inicio</Link></li>
-                        <li><Link className="dropdown-item" to="/training">Rutinas</Link></li>
-                        <li><Link className="dropdown-item" to="/alimentacion">Alimentación</Link></li>
-                        <li><Link className="dropdown-item" to="/objetivos">Objetivos</Link></li>
-                        <li><Link className="dropdown-item" to="/perfil-corporal">Perfil Corporal</Link></li>
-                        <li><Link className="dropdown-item" to="/contacto">Contacto</Link></li>
-                    </ul>
-                </div>
-
-
-
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarUser">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-
-                <div className="collapse navbar-collapse" id="navbarUser">
-                    <ul className="navbar-nav ms-auto">
-
-                        <Link className="navbar-brand" to="/dashboard">
-                            Mi Cuenta
-                        </Link>
-
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/perfil">Perfil</Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <button className="btn btn-glass ms-2" onClick={logout}>
-                                Cerrar sesión
-                            </button>
-                        </li>
-
-                    </ul>
-                </div>
-
-            </div>
-        </nav>
-
-    );
+				<div className="ml-auto">
+					<span className="text-white me-3">
+						👤 {store.user?.nombre || "Usuario"}
+					</span>
+					<button 
+						className="btn btn-glass text-white"
+						onClick={handleLogout}
+					>
+						Cerrar Sesión
+					</button>
+				</div>
+			</div>
+		</nav>
+	);
 };
