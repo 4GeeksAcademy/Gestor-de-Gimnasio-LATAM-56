@@ -1,35 +1,39 @@
-/* Asegura que todo ocupe la pantalla completa */
+/* Configuración base */
 html,
 body,
 #root {
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
+  background: #0f172a;
 }
 
-/* Fondo con degradado y centrado */
+/* Fondo con degradado estilo perfil corporal */
 .login-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
   padding: 2rem;
 }
 
-/* Caja del login */
+/* Caja Glassmorphism */
 .login-box {
-  background: white;
+  background: rgba(255, 255, 255, 0.06);
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  color: white;
 }
 
-/* Para el registro hacerlo más ancho */
 .register-box {
-  max-width: 500px;
+  max-width: 520px;
 }
 
 /* Encabezado */
@@ -41,13 +45,12 @@ body,
 .login-header h2 {
   font-size: 2rem;
   margin: 0;
-  color: #2563eb;
+  color: #93c5fd;
   font-weight: bold;
-  letter-spacing: 1px;
 }
 
 .login-header p {
-  color: #666;
+  color: rgba(255, 255, 255, 0.75);
   margin-top: 0.5rem;
   font-size: 1rem;
 }
@@ -60,30 +63,34 @@ form {
 }
 
 label {
-  font-weight: bold;
-  color: #444;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
   margin-bottom: 0.25rem;
 }
 
 input {
   padding: 0.75rem;
-  border: 2px solid #e9ecef;
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
   font-size: 1rem;
   transition: all 0.3s ease;
 }
 
 input:focus {
-  border-color: #2563eb;
+  background: rgba(0, 0, 0, 0.55);
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
   outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
 }
 
 input.input-error {
-  border-color: #dc3545;
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
 }
 
-/* Contenedor de contraseña con botón de mostrar/ocultar */
+/* Wrapper de contraseña */
 .password-input-wrapper {
   position: relative;
   display: flex;
@@ -98,29 +105,29 @@ input.input-error {
 .toggle-password {
   position: absolute;
   right: 0.75rem;
-  background: none;
+  background: rgba(255, 255, 255, 0.08);
   border: none;
   cursor: pointer;
   font-size: 1.25rem;
-  padding: 0.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+  color: #93c5fd;
+  transition: all 0.3s ease;
 }
 
 .toggle-password:hover {
-  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.18);
 }
 
 /* Texto de error */
 .error-text {
-  color: #dc3545;
+  color: #fca5a5;
   font-size: 0.875rem;
   margin-top: 0.25rem;
   display: block;
 }
 
-/* Fila de formulario (para nombre y apellido lado a lado) */
+/* Filas */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -134,24 +141,25 @@ input.input-error {
 
 /* Botón principal */
 button[type="submit"] {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   border: none;
-  padding: 0.75rem;
-  border-radius: 8px;
+  padding: 0.9rem;
+  border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 button[type="submit"]:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
 }
 
 button[disabled] {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
@@ -159,19 +167,22 @@ button[disabled] {
 /* Mensajes */
 .alert {
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 0.75rem;
   margin-bottom: 1rem;
   font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .alert.error {
-  background: #fee2e2;
-  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 .alert.success {
-  background: #dcfce7;
-  color: #166534;
+  background: rgba(34, 197, 94, 0.15);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.4);
 }
 
 /* Footer */
@@ -181,13 +192,13 @@ button[disabled] {
 }
 
 .login-footer p {
-  color: #666;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .link {
   background: none;
   border: none;
-  color: #2563eb;
+  color: #93c5fd;
   font-weight: bold;
   cursor: pointer;
   text-decoration: underline;
@@ -195,7 +206,7 @@ button[disabled] {
 }
 
 .link:hover {
-  color: #1d4ed8;
+  color: white;
 }
 
 /* Responsive */

@@ -117,12 +117,13 @@ const Register = () => {
         <div className="login-container">
             <div className="login-box register-box">
                 <div className="login-header">
-                    <h2
+                    <img
+                        src="/logo1.png"
+                        alt="Logo del gimnasio"
+                        height="170"
                         onClick={() => navigate('/')}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        GYMCLOUD
-                    </h2>
+                        style={{ cursor: "pointer" }}
+                    />
                     <p>Crear Cuenta</p>
                 </div>
 

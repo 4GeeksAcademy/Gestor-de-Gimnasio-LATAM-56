@@ -37,7 +37,7 @@ export default function Login() {
                 dispatch({ type: "SET_USER", payload: data.user });
 
                 setSuccess('✅ Inicio de sesión exitoso. Redirigiendo...');
-                
+
                 setTimeout(() => {
                     navigate('/userhome', { replace: true });
                 }, 1000);
@@ -55,12 +55,13 @@ export default function Login() {
         <div className="login-container">
             <div className="login-box">
                 <div className="login-header">
-                    <h2
+                    <img
+                        src="/logo1.png"
+                        alt="Logo del gimnasio"
+                        height="170"
                         onClick={() => navigate('/')}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        GYMCLOUD
-                    </h2>
+                        style={{ cursor: "pointer" }}
+                    />
                     <p>Inicia sesión para continuar</p>
                 </div>
 
