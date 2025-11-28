@@ -111,6 +111,8 @@ const PerfilCorporal = () => {
     const ultimoPeso = historial.length > 0 ? historial[historial.length - 1].peso : perfilActual.peso;
     const diferenciaPeso = perfilActual.peso - ultimoPeso;
 
+
+
     return (
         <div className="perfil-corporal-container">
             <div className="perfil-wrapper">
