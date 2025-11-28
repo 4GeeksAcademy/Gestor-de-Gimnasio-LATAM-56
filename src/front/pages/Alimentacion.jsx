@@ -24,7 +24,9 @@ export default function Alimentacion() {
         }
 
         try {
-            const res = await fetch("https://obscure-space-engine-97xg9964jx9j2xxv9-3001.app.github.dev/api/dietas", {
+            const URL = import.meta.env.VITE_BACKEND_URL + "/api/dietas";
+
+            const res = await fetch(URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form),
