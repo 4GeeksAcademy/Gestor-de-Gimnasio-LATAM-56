@@ -1,3 +1,23 @@
+.alimentacion-background {
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
+}
+
+/* =====================================
+   CONTENEDOR DEL CARD
+   ===================================== */
+.alimentacion-container {
+  max-width: 900px;
+  width: 100%;
+  padding: 1.5rem;
+  color: #fff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 /* =====================================
    CONTENEDOR GENERAL
    ===================================== */

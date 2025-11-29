@@ -1,4 +1,18 @@
 /* =====================================
+   CONTENEDOR GENERAL CON FONDO COMPLETO
+   ===================================== */
+.modern-page-wrapper {
+  min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+  width: 100%;
+  padding: 2rem; /* Opcional, según tu diseño */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: flex-start; /* Ajusta verticalmente al inicio */
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =====================================
    CARD PRINCIPAL (MODERN CARD)
    ===================================== */
 .modern-card {
