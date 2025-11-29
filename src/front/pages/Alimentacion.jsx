@@ -43,6 +43,7 @@ export default function Alimentacion() {
     }
 
     return (
+        <div className="alimentacion-background">
         <div className="alimentacion-container">
             <h1>Generador de Dietas</h1>
             <form className="alimentacion-form" onSubmit={handleSubmit}>
@@ -106,6 +107,7 @@ export default function Alimentacion() {
                     ))}
                 </div>
             )}
+        </div>
         </div>
     );
 }
