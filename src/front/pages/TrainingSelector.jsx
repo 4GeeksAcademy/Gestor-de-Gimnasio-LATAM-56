@@ -25,6 +25,7 @@ const TrainingSelector = () => {
         }
     };
 
+    // Convertir links de YouTube a embed
     const convertirYouTubeEmbed = (url) => {
         if (!url) return "";
 
@@ -41,12 +42,19 @@ const TrainingSelector = () => {
         return url;
     };
 
+    // Detectar si es video
+    const esVideo = (media) => {
+        if (!media || typeof media !== "string") return false;
+        return media.includes("youtube") || media.includes(".mp4");
+    };
+
     return (
         <div className="container mt-5 modern-card p-4">
             <h2 className="text-center mb-4 fw-bold text-white">
                 Selecciona tu rutina
             </h2>
 
+            {/* SELECTS */}
             <div className="mb-3">
                 <label className="form-label text-white">Objetivo</label>
                 <select className="form-select modern-select" onChange={(e) => setObjetivo(e.target.value)}>
@@ -69,6 +77,7 @@ const TrainingSelector = () => {
                 </select>
             </div>
 
+            {/* BOTÓN */}
             <button
                 className="btn btn-glass w-100 mt-2"
                 onClick={obtenerRutina}
@@ -77,6 +86,7 @@ const TrainingSelector = () => {
                 Obtener rutina
             </button>
 
+            {/* RESULTADOS */}
             {resultado && (
                 <div className="card glass-card mt-4">
                     <div className="card-body text-white">
