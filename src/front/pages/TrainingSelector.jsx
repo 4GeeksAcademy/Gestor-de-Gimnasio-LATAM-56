@@ -25,105 +25,96 @@ const TrainingSelector = () => {
         }
     };
 
-    //Función para transformar cualquier link de YouTube a embed
     const convertirYouTubeEmbed = (url) => {
         if (!url) return "";
 
-        // Shorts
         if (url.includes("shorts/")) {
             const id = url.split("shorts/")[1];
             return `https://www.youtube.com/embed/${id}`;
         }
 
-        // Videos normales
         if (url.includes("watch?v=")) {
             const id = url.split("watch?v=")[1];
             return `https://www.youtube.com/embed/${id}`;
         }
 
-        // Si ya está en formato embed o mp4
         return url;
     };
 
-
-    const esVideo = (media) => {
-        if (!media || typeof media !== "string") return false;
-        return media.includes("youtube") || media.includes(".mp4");
-    };
-
     return (
-        <div className="container mt-5 modern-card p-4">
-            <h2 className="text-center mb-4 fw-bold text-white">
-                Selecciona tu rutina
-            </h2>
+        <div className="">
 
-            <div className="mb-3">
-                <label className="form-label text-white">Objetivo</label>
-                <select className="form-select modern-select" onChange={(e) => setObjetivo(e.target.value)}>
-                    <option value="">Selecciona...</option>
-                    <option value="bajar_peso">Bajar de peso</option>
-                    <option value="ganar_masa">Ganar masa muscular</option>
-                </select>
+            <div className="modern-card p-4 mb-5 container mt-5">
+                <h2 className="text-center mb-4 fw-bold text-white">
+                    Selecciona tu rutina
+                </h2>
+
+                <div className="mb-3">
+                    <label className="form-label text-white">Objetivo</label>
+                    <select
+                        className="form-select modern-select"
+                        onChange={(e) => setObjetivo(e.target.value)}
+                    >
+                        <option value="">Selecciona...</option>
+                        <option value="bajar_peso">Bajar de peso</option>
+                        <option value="ganar_masa">Ganar masa muscular</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label text-white">Grupo muscular</label>
+                    <select
+                        className="form-select modern-select"
+                        onChange={(e) => setMusculo(e.target.value)}
+                    >
+                        <option value="">Selecciona...</option>
+                        <option value="pecho">Pecho</option>
+                        <option value="espalda">Espalda</option>
+                        <option value="piernas">Piernas</option>
+                        <option value="brazos">Brazos</option>
+                        <option value="hombros">Hombros</option>
+                        <option value="abdomen">Abdomen</option>
+                    </select>
+                </div>
+
+                <button
+                    className="btn-glass w-100 mt-2"
+                    onClick={obtenerRutina}
+                    disabled={!objetivo || !musculo}
+                >
+                    Obtener rutina
+                </button>
             </div>
-
-            <div className="mb-3">
-                <label className="form-label text-white">Grupo muscular</label>
-                <select className="form-select modern-select" onChange={(e) => setMusculo(e.target.value)}>
-                    <option value="">Selecciona...</option>
-                    <option value="pecho">Pecho</option>
-                    <option value="espalda">Espalda</option>
-                    <option value="piernas">Piernas</option>
-                    <option value="brazos">Brazos</option>
-                    <option value="hombros">Hombros</option>
-                    <option value="abdomen">Abdomen</option>
-                </select>
-            </div>
-
-            <button
-                className="btn btn-glass w-100 mt-2"
-                onClick={obtenerRutina}
-                disabled={!objetivo || !musculo}
-            >
-                Obtener rutina
-            </button>
 
             {resultado && (
-                <div className="card glass-card mt-4">
-                    <div className="card-body text-white">
-                        <h4 className="card-title text-capitalize fw-bold">
-                            Rutina para {resultado.musculo.replace("_", " ")}
-                        </h4>
+                <div className="glass-card p-4">
+                    <h4 className="text-white fw-bold text-capitalize mb-4">
+                        Rutina para {resultado.musculo.replace("_", " ")}
+                    </h4>
 
-                        <div className="exercise-list mt-3">
-                            {resultado.rutina.map((ejercicio, index) => (
-                                <div key={index} className="exercise-item mb-4">
-                                    <h5 className="fw-bold">{ejercicio.nombre}</h5>
+                    <div className="exercise-list">
+                        {resultado.rutina.map((ejercicio, index) => (
+                            <div key={index} className="exercise-item mb-4">
+                                <h5 className="fw-bold text-white">{ejercicio.nombre}</h5>
 
-                                    {esVideo(ejercicio.video) ? (
-                                        <iframe
-                                            width="100%"
-                                            height="250"
-                                            src={convertirYouTubeEmbed(ejercicio.video)}
-                                            className="rounded glass-video"
-                                            allowFullScreen
-                                            title="YouTube video player"
-                                            frameBorder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                            referrerPolicy="strict-origin-when-cross-origin"
-                                        ></iframe>
-                                    ) : (
-                                        <img
-                                            src={ejercicio.imagen}
-                                            alt={ejercicio.nombre}
-                                            className="img-fluid rounded glass-img"
-                                        />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                                <iframe
+                                    width="100%"
+                                    height="450"
+                                    src={convertirYouTubeEmbed(ejercicio.video)}
+                                    className="rounded glass-video"
+                                    allowFullScreen
+                                    title="YouTube video player"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerPolicy="strict-origin-when-cross-origin"
+                                ></iframe>
+
+                            </div>
+                        ))}
                     </div>
                 </div>
             )}
+
         </div>
     );
 };
