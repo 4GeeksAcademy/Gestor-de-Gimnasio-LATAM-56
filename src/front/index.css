@@ -2,12 +2,11 @@
 body {
   margin: 0;
   padding-top: 90px;
-  background-color: #1b3674;
 }
 
 /* ===== CARDS GLASSMORPHISM CORREGIDAS ===== */
 .card-small {
-  width: 850px; /* 🔥 tamaño más pequeño */
+  width: 950px; /* 🔥 tamaño más pequeño */
   padding: 14px;
   display: flex;
   align-items: center;
@@ -91,7 +90,7 @@ body {
 }
 
 .bg-dark {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
 }
 
 .shadow-lg {
