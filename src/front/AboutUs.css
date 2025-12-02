@@ -419,3 +419,14 @@
     height: 200px;
   }
 }
+/* fotos */
+.team-card .card-image-wrapper img {
+  width: 300px !important; /* tamaño perfecto */
+  height: 300px !important; /* proporción normal de foto carnet */
+  object-fit: cover; /* no se deforman */
+  border-radius: 12px !important; /* esquinas suavemente redondeadas (no círculo) */
+  display: block;
+  margin: 0 auto; /* ← centrada perfectamente */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 4px solid white;
+}
