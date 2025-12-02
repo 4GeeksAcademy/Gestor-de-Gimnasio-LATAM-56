@@ -16,7 +16,11 @@ export const UserHome = () => {
 
             <div className="text-center mt-4">
 
-                <h2 className="text-white mb-4">Bienvenido de nuevo 💪</h2>
+                <h2 className="titulo-llamativo mb-4">
+                    Bienvenido de nuevo 💪
+                </h2>
+
+
 
                 {/* Carousel */}
                 <div id="carouselUser" className="carousel slide carousel-big" data-bs-ride="carousel">

@@ -1,0 +1,32 @@
+.titulo-llamativo {
+  font-size: 2rem; /* respeta tamaños similares al original */
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  margin-top: 20px;
+
+  /* Gradiente brillante */
+  background: linear-gradient(90deg, #ff006a, #ffcc00, #00eaff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Efecto glow */
+  text-shadow: 0 0 10px rgba(255, 0, 102, 0.7), 0 0 20px rgba(255, 204, 0, 0.6),
+    0 0 30px rgba(0, 234, 255, 0.5);
+
+  /* Animación suave */
+  animation: brillo 2.5s ease-in-out infinite;
+}
+
+/* Animación del gradiente */
+@keyframes brillo {
+  0% {
+    filter: brightness(0.9);
+  }
+  50% {
+    filter: brightness(1.3);
+  }
+  100% {
+    filter: brightness(0.9);
+  }
+}
