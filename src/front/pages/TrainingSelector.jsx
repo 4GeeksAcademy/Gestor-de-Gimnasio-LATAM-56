@@ -78,13 +78,16 @@ const TrainingSelector = () => {
             </div>
 
             {/* BOTÓN */}
-            <button
-                className="btn btn-glass2 w-100 mt-2"
-                onClick={obtenerRutina}
-                disabled={!objetivo || !musculo}
-            >
-                Obtener rutina
-            </button>
+            <div>
+                <button
+                    className="btn btn-glass2 mt-2"
+                    onClick={obtenerRutina}
+                    disabled={!objetivo || !musculo}
+                >
+                    Obtener rutina
+                </button>
+            </div>
+
 
             {/* RESULTADOS */}
             {resultado && (
