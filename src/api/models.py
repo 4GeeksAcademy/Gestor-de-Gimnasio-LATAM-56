@@ -39,7 +39,7 @@ class Usuario(db.Model):
     """
     Modelo de Usuario para el sistema de registro del gimnasio
     """
-    __tablename__ = 'usuarios'  # <-- ESTE ES EL NOMBRE REAL DE LA TABLA
+    __tablename__ = 'usuarios'
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50), nullable=False)
@@ -111,10 +111,7 @@ class Objetivo(db.Model):
     __tablename__ = 'objetivos'
 
     id = db.Column(db.Integer, primary_key=True)
-
-    # FIX: ForeignKey apuntando a 'usuarios.id'
-    usuario_id = db.Column(db.Integer, db.ForeignKey(
-        'usuarios.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
 
     titulo = db.Column(db.String(200), nullable=False)
     categoria = db.Column(db.String(50), nullable=False)
@@ -124,44 +121,48 @@ class Objetivo(db.Model):
     fecha_inicio = db.Column(db.Date, default=datetime.utcnow)
     fecha_meta = db.Column(db.Date, nullable=False)
     fecha_completado = db.Column(db.DateTime, nullable=True)
-    fecha_ultima_actualizacion = db.Column(
-        db.DateTime, default=datetime.utcnow)
+    fecha_ultima_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
     completado = db.Column(db.Boolean, default=False)
 
-    usuario = db.relationship(
-        'Usuario', backref=db.backref('objetivos', lazy=True))
+    usuario = db.relationship('Usuario', backref=db.backref('objetivos', lazy=True))
 
     def to_dict(self):
+        """Convierte el objetivo a diccionario con nombres camelCase"""
         return {
             'id': self.id,
             'titulo': self.titulo,
             'categoria': self.categoria,
-            'meta': self.meta,
-            'actual': self.actual,
+            'meta': float(self.meta),
+            'actual': float(self.actual),
             'unidad': self.unidad,
-            'fechaInicio': self.fecha_inicio.strftime('%Y-%m-%d') if self.fecha_inicio else None,
-            'fechaMeta': self.fecha_meta.strftime('%Y-%m-%d') if self.fecha_meta else None,
-            'fechaCompletado': self.fecha_completado.strftime('%Y-%m-%d') if self.fecha_completado else None,
+            'fecha_inicio': self.fecha_inicio.strftime('%Y-%m-%d') if self.fecha_inicio else None,
+            'fecha_meta': self.fecha_meta.strftime('%Y-%m-%d') if self.fecha_meta else None,
+            'fecha_completado': self.fecha_completado.strftime('%Y-%m-%d') if self.fecha_completado else None,
             'completado': self.completado
         }
+
+    def __repr__(self):
+        return f'<Objetivo {self.titulo} - {self.actual}/{self.meta} {self.unidad}>'
 
 
 # ========== MODELO: PERFIL CORPORAL ==========
 class PerfilCorporal(db.Model):
+    """
+    Modelo para almacenar datos corporales y medidas del usuario
+    """
     __tablename__ = 'perfil_corporal'
 
     id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False, unique=True)
 
-    # FIX: Aquí también
-    usuario_id = db.Column(db.Integer, db.ForeignKey(
-        'usuarios.id'), nullable=False, unique=True)
-
+    # Datos básicos
     peso = db.Column(db.Float, default=0)
     altura = db.Column(db.Integer, default=0)
     edad = db.Column(db.Integer, default=0)
     genero = db.Column(db.String(20), default='masculino')
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Medidas corporales (cm)
     cuello = db.Column(db.Float, default=0)
     pecho = db.Column(db.Float, default=0)
     cintura = db.Column(db.Float, default=0)
@@ -175,42 +176,48 @@ class PerfilCorporal(db.Model):
     antebrazo_izq = db.Column(db.Float, default=0)
     antebrazo_der = db.Column(db.Float, default=0)
 
-    usuario = db.relationship('Usuario', backref=db.backref(
-        'perfil_corporal', uselist=False))
+    usuario = db.relationship('Usuario', backref=db.backref('perfil_corporal', uselist=False))
 
     def to_dict(self):
+        """
+        🔥 FIX CRÍTICO: Devuelve estructura plana compatible con el frontend
+        El frontend espera las medidas en el nivel superior, no anidadas
+        """
         return {
-            'peso': self.peso,
-            'altura': self.altura,
-            'edad': self.edad,
+            'id': self.id,
+            'peso': float(self.peso) if self.peso else 0,
+            'altura': int(self.altura) if self.altura else 0,
+            'edad': int(self.edad) if self.edad else 0,
             'genero': self.genero,
-            'fechaRegistro': self.fecha_registro.strftime('%Y-%m-%d') if self.fecha_registro else None,
-            'medidas': {
-                'cuello': self.cuello,
-                'pecho': self.pecho,
-                'cintura': self.cintura,
-                'cadera': self.cadera,
-                'musloIzq': self.muslo_izq,
-                'musloDer': self.muslo_der,
-                'pantorrillaIzq': self.pantorrilla_izq,
-                'pantorrillaDer': self.pantorrilla_der,
-                'brazoIzq': self.brazo_izq,
-                'brazoDer': self.brazo_der,
-                'antebrazoIzq': self.antebrazo_izq,
-                'antebrazoDer': self.antebrazo_der
-            }
+            'fecha_registro': self.fecha_registro.strftime('%Y-%m-%d') if self.fecha_registro else None,
+            # Medidas en el nivel superior (sin anidación)
+            'cuello': float(self.cuello) if self.cuello else 0,
+            'pecho': float(self.pecho) if self.pecho else 0,
+            'cintura': float(self.cintura) if self.cintura else 0,
+            'cadera': float(self.cadera) if self.cadera else 0,
+            'muslo_izq': float(self.muslo_izq) if self.muslo_izq else 0,
+            'muslo_der': float(self.muslo_der) if self.muslo_der else 0,
+            'pantorrilla_izq': float(self.pantorrilla_izq) if self.pantorrilla_izq else 0,
+            'pantorrilla_der': float(self.pantorrilla_der) if self.pantorrilla_der else 0,
+            'brazo_izq': float(self.brazo_izq) if self.brazo_izq else 0,
+            'brazo_der': float(self.brazo_der) if self.brazo_der else 0,
+            'antebrazo_izq': float(self.antebrazo_izq) if self.antebrazo_izq else 0,
+            'antebrazo_der': float(self.antebrazo_der) if self.antebrazo_der else 0
         }
+
+    def __repr__(self):
+        return f'<PerfilCorporal Usuario {self.usuario_id}>'
 
 
 # ========== MODELO: HISTORIAL DE PROGRESO ==========
 class HistorialProgreso(db.Model):
+    """
+    Modelo para almacenar el historial de progreso del usuario
+    """
     __tablename__ = 'historial_progreso'
 
     id = db.Column(db.Integer, primary_key=True)
-
-    # FIX: Igual aquí
-    usuario_id = db.Column(db.Integer, db.ForeignKey(
-        'usuarios.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
 
     fecha = db.Column(db.Date, nullable=False)
     peso = db.Column(db.Float, nullable=False)
@@ -218,15 +225,18 @@ class HistorialProgreso(db.Model):
     musculo = db.Column(db.Float, default=0)
     imc = db.Column(db.Float, default=0)
 
-    usuario = db.relationship('Usuario', backref=db.backref(
-        'historial_progreso', lazy=True))
+    usuario = db.relationship('Usuario', backref=db.backref('historial_progreso', lazy=True))
 
     def to_dict(self):
+        """Convierte el registro a diccionario"""
         return {
             'id': self.id,
             'fecha': self.fecha.strftime('%Y-%m-%d'),
-            'peso': self.peso,
-            'grasaCorporal': self.grasa_corporal,
-            'musculo': self.musculo,
-            'imc': self.imc
+            'peso': float(self.peso),
+            'grasaCorporal': float(self.grasa_corporal),
+            'musculo': float(self.musculo),
+            'imc': float(self.imc)
         }
+
+    def __repr__(self):
+        return f'<HistorialProgreso {self.fecha} - {self.peso}kg>'

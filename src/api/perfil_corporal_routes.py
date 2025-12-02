@@ -24,22 +24,30 @@ def get_perfil():
     Returns: Perfil con datos básicos y medidas
     """
     try:
-        # Obtener ID del usuario
-        usuario_id = get_jwt_identity()
+        # 🔥 FIX: Convertir de string a int
+        usuario_id = int(get_jwt_identity())
+        print(f"🔍 Buscando perfil para usuario {usuario_id}")
 
         # Buscar perfil (crear uno si no existe)
         perfil = PerfilCorporal.query.filter_by(usuario_id=usuario_id).first()
 
         if not perfil:
+            print(
+                f"⚠️  Perfil no existe, creando uno nuevo para usuario {usuario_id}")
             # Crear perfil vacío si no existe
             perfil = PerfilCorporal(usuario_id=usuario_id)
             db.session.add(perfil)
             db.session.commit()
+            print(f"✅ Perfil creado con ID {perfil.id}")
 
-        return jsonify(perfil.to_dict()), 200
+        perfil_dict = perfil.to_dict()
+        print(
+            f"📦 Perfil encontrado: Peso={perfil_dict.get('peso')}, Altura={perfil_dict.get('altura')}")
+        return jsonify(perfil_dict), 200
 
     except Exception as e:
-        print(f"Error al obtener perfil: {str(e)}")
+        print(f"❌ Error al obtener perfil: {str(e)}")
+        db.session.rollback()
         return jsonify({'success': False, 'message': 'Error al cargar perfil'}), 500
 
 
@@ -65,17 +73,20 @@ def update_perfil():
     }
     """
     try:
-        # Obtener ID del usuario
-        usuario_id = get_jwt_identity()
+        # 🔥 FIX: Convertir de string a int
+        usuario_id = int(get_jwt_identity())
+        print(f"🔄 Actualizando perfil para usuario {usuario_id}")
 
         # Buscar o crear perfil
         perfil = PerfilCorporal.query.filter_by(usuario_id=usuario_id).first()
         if not perfil:
+            print(f"⚠️  Perfil no existe, creando uno nuevo")
             perfil = PerfilCorporal(usuario_id=usuario_id)
             db.session.add(perfil)
 
         # Obtener datos del request
         data = request.get_json()
+        print(f"📥 Datos recibidos: {data}")
 
         # Actualizar datos básicos
         if 'peso' in data:
@@ -87,9 +98,12 @@ def update_perfil():
         if 'genero' in data:
             perfil.genero = data['genero']
 
-        # Actualizar medidas corporales
-        if 'medidas' in data:
+        # 🔥 ACTUALIZAR MEDIDAS - SOPORTA AMBAS ESTRUCTURAS
+        # Caso 1: Medidas anidadas en objeto "medidas"
+        if 'medidas' in data and isinstance(data['medidas'], dict):
             medidas = data['medidas']
+            print(f"📏 Actualizando medidas (estructura anidada)")
+
             if 'cuello' in medidas:
                 perfil.cuello = float(medidas['cuello'])
             if 'pecho' in medidas:
@@ -115,17 +129,50 @@ def update_perfil():
             if 'antebrazoDer' in medidas:
                 perfil.antebrazo_der = float(medidas['antebrazoDer'])
 
+        # Caso 2: Medidas en el nivel superior (estructura plana)
+        else:
+            print(f"📏 Actualizando medidas (estructura plana)")
+            if 'cuello' in data:
+                perfil.cuello = float(data['cuello'])
+            if 'pecho' in data:
+                perfil.pecho = float(data['pecho'])
+            if 'cintura' in data:
+                perfil.cintura = float(data['cintura'])
+            if 'cadera' in data:
+                perfil.cadera = float(data['cadera'])
+            if 'musloIzq' in data:
+                perfil.muslo_izq = float(data['musloIzq'])
+            if 'musloDer' in data:
+                perfil.muslo_der = float(data['musloDer'])
+            if 'pantorrillaIzq' in data:
+                perfil.pantorrilla_izq = float(data['pantorrillaIzq'])
+            if 'pantorrillaDer' in data:
+                perfil.pantorrilla_der = float(data['pantorrillaDer'])
+            if 'brazoIzq' in data:
+                perfil.brazo_izq = float(data['brazoIzq'])
+            if 'brazoDer' in data:
+                perfil.brazo_der = float(data['brazoDer'])
+            if 'antebrazoIzq' in data:
+                perfil.antebrazo_izq = float(data['antebrazoIzq'])
+            if 'antebrazoDer' in data:
+                perfil.antebrazo_der = float(data['antebrazoDer'])
+
         # Actualizar fecha de registro
         perfil.fecha_registro = datetime.utcnow()
 
         # Guardar cambios
         db.session.commit()
+        print(f"✅ Perfil actualizado correctamente")
 
         return jsonify(perfil.to_dict()), 200
 
+    except ValueError as ve:
+        db.session.rollback()
+        print(f"❌ Error de valor: {str(ve)}")
+        return jsonify({'success': False, 'message': 'Formato de datos inválido'}), 400
     except Exception as e:
         db.session.rollback()
-        print(f"Error al actualizar perfil: {str(e)}")
+        print(f"❌ Error al actualizar perfil: {str(e)}")
         return jsonify({'success': False, 'message': 'Error al actualizar perfil'}), 500
 
 
@@ -140,8 +187,9 @@ def get_historial():
     Returns: Lista de registros históricos ordenados por fecha
     """
     try:
-        # Obtener ID del usuario
-        usuario_id = get_jwt_identity()
+        # 🔥 FIX: Convertir de string a int
+        usuario_id = int(get_jwt_identity())
+        print(f"🔍 Obteniendo historial para usuario {usuario_id}")
 
         # Consultar historial ordenado por fecha
         historial = HistorialProgreso.query.filter_by(usuario_id=usuario_id)\
@@ -150,10 +198,11 @@ def get_historial():
         # Convertir a diccionario
         historial_dict = [registro.to_dict() for registro in historial]
 
+        print(f"📊 Historial encontrado: {len(historial_dict)} registros")
         return jsonify(historial_dict), 200
 
     except Exception as e:
-        print(f"Error al obtener historial: {str(e)}")
+        print(f"❌ Error al obtener historial: {str(e)}")
         return jsonify({'success': False, 'message': 'Error al cargar historial'}), 500
 
 
@@ -175,11 +224,13 @@ def add_registro_historial():
     }
     """
     try:
-        # Obtener ID del usuario
-        usuario_id = get_jwt_identity()
+        # 🔥 FIX: Convertir de string a int
+        usuario_id = int(get_jwt_identity())
+        print(f"➕ Agregando registro al historial para usuario {usuario_id}")
 
         # Obtener datos del request
         data = request.get_json()
+        print(f"📥 Datos recibidos: {data}")
 
         # Validar campo peso (requerido)
         if 'peso' not in data or 'fecha' not in data:
@@ -202,11 +253,14 @@ def add_registro_historial():
         db.session.add(nuevo_registro)
         db.session.commit()
 
+        print(f"✅ Registro agregado al historial con ID {nuevo_registro.id}")
         return jsonify(nuevo_registro.to_dict()), 201
 
     except ValueError as ve:
+        db.session.rollback()
+        print(f"❌ Error de valor: {str(ve)}")
         return jsonify({'success': False, 'message': 'Formato de fecha inválido'}), 400
     except Exception as e:
         db.session.rollback()
-        print(f"Error al agregar registro: {str(e)}")
+        print(f"❌ Error al agregar registro: {str(e)}")
         return jsonify({'success': False, 'message': 'Error al agregar registro'}), 500

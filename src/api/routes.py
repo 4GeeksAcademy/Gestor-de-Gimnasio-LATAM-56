@@ -12,15 +12,20 @@ api = Blueprint('api', __name__)
 CORS(api)
 
 # Rutas de prueba
+
+
 @api.route('/hello', methods=['GET', 'POST'])
 def handle_hello():
     return jsonify({"message": "Hello! Backend funcionando."}), 200
+
 
 @api.route('/test', methods=['GET'])
 def test_connection():
     return jsonify({"message": "Backend conectado correctamente"}), 200
 
 # REGISTRO
+
+
 @api.route('/register', methods=['POST'])
 def register():
     try:
@@ -28,8 +33,10 @@ def register():
         if not data:
             return jsonify({'success': False, 'message': 'No se enviaron datos'}), 400
 
-        campos_requeridos = ['nombre', 'apellido', 'email', 'password', 'telefono', 'fechaNacimiento']
-        faltantes = [c for c in campos_requeridos if c not in data or not data[c]]
+        campos_requeridos = ['nombre', 'apellido', 'email',
+                             'password', 'telefono', 'fechaNacimiento']
+        faltantes = [
+            c for c in campos_requeridos if c not in data or not data[c]]
 
         if faltantes:
             return jsonify({'success': False, 'message': f'Campos faltantes: {", ".join(faltantes)}'}), 400
@@ -53,7 +60,8 @@ def register():
             return jsonify({'success': False, 'message': msg_err}), 400
 
         try:
-            fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, '%Y-%m-%d').date()
+            fecha_nacimiento = datetime.strptime(
+                fecha_nacimiento_str, '%Y-%m-%d').date()
         except ValueError:
             return jsonify({'success': False, 'message': 'Formato de fecha inválido (YYYY-MM-DD)'}), 400
 
@@ -69,9 +77,9 @@ def register():
         db.session.add(nuevo_usuario)
         db.session.commit()
 
-        token = create_access_token(identity=nuevo_usuario.id)
+        # 🔥 FIX: Convertir ID a string para JWT
+        token = create_access_token(identity=str(nuevo_usuario.id))
 
-        # Devuelvo tanto 'usuario'/'access_token' como 'user'/'token' para compatibilidad
         return jsonify({
             'success': True,
             'message': 'Usuario registrado exitosamente',
@@ -129,16 +137,15 @@ def login():
         if not usuario:
             return jsonify({'success': False, 'message': 'Credenciales inválidas'}), 401
 
-        # Usar método de verificación seguro
         if not usuario.check_password(password):
             return jsonify({'success': False, 'message': 'Credenciales inválidas'}), 401
 
         if not usuario.activo:
             return jsonify({'success': False, 'message': 'Usuario inactivo'}), 403
 
-        token = create_access_token(identity=usuario.id)
+        # 🔥 FIX: Convertir ID a string para JWT
+        token = create_access_token(identity=str(usuario.id))
 
-        # Devuelvo ambos formatos: usuario/access_token y user/token (frontend espera token,user)
         return jsonify({
             'success': True,
             'message': 'Login exitoso',
@@ -159,7 +166,8 @@ def login():
 @jwt_required()
 def get_profile():
     try:
-        uid = get_jwt_identity()
+        # 🔥 FIX: Convertir de string a int
+        uid = int(get_jwt_identity())
         usuario = Usuario.query.get(uid)
         if not usuario:
             return jsonify({'success': False, 'message': 'Usuario no encontrado'}), 404
@@ -176,7 +184,8 @@ def get_profile():
 @jwt_required()
 def update_profile():
     try:
-        uid = get_jwt_identity()
+        # 🔥 FIX: Convertir de string a int
+        uid = int(get_jwt_identity())
         usuario = Usuario.query.get(uid)
         if not usuario:
             return jsonify({'success': False, 'message': 'Usuario no encontrado'}), 404
@@ -218,7 +227,8 @@ def get_all_users():
 @jwt_required()
 def validate_token():
     try:
-        uid = get_jwt_identity()
+        # 🔥 FIX: Convertir de string a int
+        uid = int(get_jwt_identity())
         usuario = Usuario.query.get(uid)
         if not usuario:
             return jsonify({'success': False, 'message': 'Token inválido'}), 401
