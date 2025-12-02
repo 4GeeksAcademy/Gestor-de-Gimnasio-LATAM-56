@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { User, Save, TrendingUp, Calendar } from 'lucide-react';
+import { User, Save, TrendingUp, Calendar, Target, Activity } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import '../PerfilCorporal.css';
 
 // Detectar automáticamente la URL del backend
 const getBackendURL = () => {
-    // Si hay variable de entorno, usarla
     if (import.meta.env.VITE_BACKEND_URL) {
         return import.meta.env.VITE_BACKEND_URL;
     }
-
-    // Si estamos en GitHub Codespaces
+    
     if (window.location.hostname.includes('github.dev')) {
         const baseUrl = window.location.hostname.replace('-3000.', '-3001.');
         return `https://${baseUrl}`;
     }
-
-    // Localhost por defecto
+    
     return 'http://localhost:3001';
 };
 
@@ -27,7 +24,7 @@ const PerfilCorporal = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(null);
-
+    
     const [perfil, setPerfil] = useState({
         peso: '',
         altura: '',
@@ -49,7 +46,6 @@ const PerfilCorporal = () => {
         }
     });
 
-    // 🔥 CARGAR PERFIL AL MONTAR EL COMPONENTE
     useEffect(() => {
         cargarPerfil();
     }, []);
@@ -58,13 +54,16 @@ const PerfilCorporal = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-
+            
+            console.log('🔗 Backend URL:', API_URL);
+            console.log('🔑 Token exists:', !!token);
+            
             if (!token) {
                 setError('No estás autenticado. Por favor inicia sesión.');
                 setLoading(false);
                 return;
             }
-
+            
             const response = await fetch(`${API_URL}/api/perfil`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -72,13 +71,25 @@ const PerfilCorporal = () => {
                 }
             });
 
+            console.log('📡 Response status:', response.status);
+
             if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error('❌ Error response:', errorData);
+                
+                if (response.status === 401 || response.status === 422) {
+                    setError('Sesión expirada. Por favor inicia sesión nuevamente.');
+                    localStorage.removeItem('token');
+                    setTimeout(() => navigate('/login'), 2000);
+                    return;
+                }
+                
                 throw new Error('Error al cargar perfil');
             }
 
             const data = await response.json();
-
-            // Mapear datos del backend al estado local
+            console.log('✅ Perfil cargado:', data);
+            
             setPerfil({
                 peso: data.peso || '',
                 altura: data.altura || '',
@@ -99,22 +110,21 @@ const PerfilCorporal = () => {
                     antebrazoDer: data.antebrazo_der || ''
                 }
             });
-
+            
             setError(null);
         } catch (err) {
-            console.error('Error:', err);
+            console.error('❌ Error completo:', err);
             setError('No se pudo cargar el perfil');
         } finally {
             setLoading(false);
         }
     };
 
-    // 🔥 GUARDAR PERFIL EN EL BACKEND
     const guardarPerfil = async () => {
         try {
             setSaving(true);
             const token = localStorage.getItem('token');
-
+            
             const response = await fetch(`${API_URL}/api/perfil`, {
                 method: 'PUT',
                 headers: {
@@ -148,22 +158,17 @@ const PerfilCorporal = () => {
                 throw new Error(errorData.message || 'Error al guardar perfil');
             }
 
-            const data = await response.json();
-            console.log('Perfil guardado:', data);
-
+            console.log('✅ Perfil guardado');
             alert('Perfil guardado exitosamente');
-
-            // Recargar perfil
             await cargarPerfil();
         } catch (err) {
             console.error('Error:', err);
-            alert(`Error al guardar el perfil: ${err.message}`);
+            alert(`Error: ${err.message}`);
         } finally {
             setSaving(false);
         }
     };
 
-    // Calcular IMC
     const calcularIMC = () => {
         if (perfil.peso && perfil.altura) {
             const alturaMetros = perfil.altura / 100;
@@ -173,12 +178,11 @@ const PerfilCorporal = () => {
         return '-';
     };
 
-    // Clasificación del IMC
     const clasificacionIMC = (imc) => {
-        if (imc < 18.5) return { texto: 'Bajo peso', color: 'text-yellow-600' };
-        if (imc < 25) return { texto: 'Normal', color: 'text-green-600' };
-        if (imc < 30) return { texto: 'Sobrepeso', color: 'text-orange-600' };
-        return { texto: 'Obesidad', color: 'text-red-600' };
+        if (imc < 18.5) return { texto: 'Bajo peso', color: 'stat-yellow' };
+        if (imc < 25) return { texto: 'Normal', color: 'stat-green' };
+        if (imc < 30) return { texto: 'Sobrepeso', color: 'stat-orange' };
+        return { texto: 'Obesidad', color: 'stat-red' };
     };
 
     const handleInputChange = (field, value) => {
@@ -198,24 +202,22 @@ const PerfilCorporal = () => {
         }));
     };
 
-    // 🔥 MOSTRAR LOADING
     if (loading) {
         return (
-            <div className="perfil-container">
-                <div className="perfil-wrapper">
-                    <p style={{ textAlign: 'center', padding: '2rem', fontSize: '1.2rem' }}>Cargando perfil...</p>
+            <div className="objetivos-container">
+                <div className="objetivos-wrapper">
+                    <p style={{ textAlign: 'center', padding: '2rem' }}>Cargando perfil...</p>
                 </div>
             </div>
         );
     }
 
-    // 🔥 MOSTRAR ERROR
     if (error) {
         return (
-            <div className="perfil-container">
-                <div className="perfil-wrapper">
+            <div className="objetivos-container">
+                <div className="objetivos-wrapper">
                     <p style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>{error}</p>
-                    <button onClick={cargarPerfil} style={{ display: 'block', margin: '0 auto' }}>Reintentar</button>
+                    <button onClick={cargarPerfil}>Reintentar</button>
                 </div>
             </div>
         );
@@ -225,68 +227,137 @@ const PerfilCorporal = () => {
     const clasificacion = imc !== '-' ? clasificacionIMC(parseFloat(imc)) : null;
 
     return (
-        <div className="perfil-container">
-            <div className="perfil-wrapper">
+        <div className="objetivos-container">
+            <div className="objetivos-wrapper">
                 {/* Header */}
-                <div className="perfil-header">
-                    <div>
-                        <h1 className="perfil-title">
+                <div className="objetivos-header-with-button">
+                    <div className="objetivos-header-content">
+                        <h1 className="objetivos-title">
                             <User className="icon-large" />
                             Mi Perfil Corporal
                         </h1>
-                        <p className="perfil-subtitle">Registra tus medidas y controla tu progreso</p>
+                        <p className="objetivos-subtitle">Registra tus medidas y controla tu progreso</p>
                     </div>
+                    <button
+                        onClick={() => navigate('/objetivos')}
+                        className="btn-perfil-corporal-main"
+                    >
+                        <Target className="icon-small" />
+                        <span>Mis Objetivos</span>
+                    </button>
+                </div>
+
+                {/* Stats Cards - Similar a Objetivos */}
+                <div className="stats-grid">
+                    <div className="stat-card stat-blue">
+                        <div className="stat-content">
+                            <div>
+                                <p className="stat-label">Peso Actual</p>
+                                <p className="stat-value">{perfil.peso || '-'} kg</p>
+                            </div>
+                            <Activity className="stat-icon" />
+                        </div>
+                    </div>
+
+                    <div className={`stat-card ${clasificacion?.color || 'stat-green'}`}>
+                        <div className="stat-content">
+                            <div>
+                                <p className="stat-label">IMC</p>
+                                <p className="stat-value">{imc}</p>
+                            </div>
+                            <TrendingUp className="stat-icon" />
+                        </div>
+                        {clasificacion && (
+                            <div className="stat-text">
+                                <p>{clasificacion.texto}</p>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="stat-card stat-purple">
+                        <div className="stat-content">
+                            <div>
+                                <p className="stat-label">Altura</p>
+                                <p className="stat-value">{perfil.altura || '-'} cm</p>
+                            </div>
+                            <User className="stat-icon" />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Botón Guardar */}
+                <div className="objetivos-actions">
+                    <h2 className="section-title">Datos Personales</h2>
                     <button
                         onClick={guardarPerfil}
                         disabled={saving}
-                        className="btn-guardar"
+                        className="btn-add-objetivo"
                     >
                         <Save className="icon-small" />
                         {saving ? 'Guardando...' : 'Guardar Cambios'}
                     </button>
                 </div>
 
-                {/* Datos Básicos */}
-                <div className="perfil-section">
-                    <h2 className="section-title">Datos Básicos</h2>
-                    <div className="form-grid">
-                        <div className="form-group">
+                {/* Datos Básicos - Cards estilo Objetivos */}
+                <div className="objetivos-grid">
+                    <div className="objetivo-card">
+                        <div className="objetivo-header">
+                            <div className="objetivo-info">
+                                <div className="categoria-icon bg-blue-500">👤</div>
+                                <h3 className="objetivo-titulo">Información Básica</h3>
+                            </div>
+                        </div>
+
+                        <div className="objetivo-actualizar">
                             <label>Peso (kg)</label>
-                            <input
-                                type="number"
-                                value={perfil.peso}
-                                onChange={(e) => handleInputChange('peso', e.target.value)}
-                                className="form-input"
-                                step="0.1"
-                                placeholder="75.5"
-                            />
+                            <div className="input-group">
+                                <input
+                                    type="number"
+                                    value={perfil.peso}
+                                    onChange={(e) => handleInputChange('peso', e.target.value)}
+                                    className="input-progreso"
+                                    step="0.1"
+                                    placeholder="75.5"
+                                />
+                                <span className="unidad-badge">kg</span>
+                            </div>
                         </div>
-                        <div className="form-group">
+
+                        <div className="objetivo-actualizar">
                             <label>Altura (cm)</label>
-                            <input
-                                type="number"
-                                value={perfil.altura}
-                                onChange={(e) => handleInputChange('altura', e.target.value)}
-                                className="form-input"
-                                placeholder="175"
-                            />
+                            <div className="input-group">
+                                <input
+                                    type="number"
+                                    value={perfil.altura}
+                                    onChange={(e) => handleInputChange('altura', e.target.value)}
+                                    className="input-progreso"
+                                    placeholder="175"
+                                />
+                                <span className="unidad-badge">cm</span>
+                            </div>
                         </div>
-                        <div className="form-group">
+
+                        <div className="objetivo-actualizar">
                             <label>Edad</label>
-                            <input
-                                type="number"
-                                value={perfil.edad}
-                                onChange={(e) => handleInputChange('edad', e.target.value)}
-                                className="form-input"
-                                placeholder="28"
-                            />
+                            <div className="input-group">
+                                <input
+                                    type="number"
+                                    value={perfil.edad}
+                                    onChange={(e) => handleInputChange('edad', e.target.value)}
+                                    className="input-progreso"
+                                    placeholder="28"
+                                />
+                                <span className="unidad-badge">años</span>
+                            </div>
                         </div>
-                        <div className="form-group">
+
+                        <div className="objetivo-actualizar">
                             <label>Género</label>
                             <select
                                 value={perfil.genero}
                                 onChange={(e) => handleInputChange('genero', e.target.value)}
-                                className="form-input"
+                                className="input-progreso"
+                                style={{ width: '100%' }}
                             >
                                 <option value="masculino">Masculino</option>
                                 <option value="femenino">Femenino</option>
@@ -296,188 +367,230 @@ const PerfilCorporal = () => {
                     </div>
                 </div>
 
-                {/* IMC Card */}
-                {imc !== '-' && (
-                    <div className="imc-card">
-                        <div className="imc-content">
-                            <div>
-                                <p className="imc-label">Índice de Masa Corporal (IMC)</p>
-                                <p className="imc-value">{imc}</p>
-                                {clasificacion && (
-                                    <p className={`imc-clasificacion ${clasificacion.color}`}>
-                                        {clasificacion.texto}
-                                    </p>
-                                )}
-                            </div>
-                            <TrendingUp className="imc-icon" />
-                        </div>
-                    </div>
-                )}
-
                 {/* Medidas Corporales */}
-                <div className="perfil-section">
+                <div className="objetivos-actions" style={{ marginTop: '2rem' }}>
                     <h2 className="section-title">Medidas Corporales (cm)</h2>
+                </div>
 
-                    {/* Torso */}
-                    <div className="medidas-grupo">
-                        <h3 className="grupo-title">Torso</h3>
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Cuello</label>
+                <div className="objetivos-grid">
+                    {/* Card Torso */}
+                    <div className="objetivo-card">
+                        <div className="objetivo-header">
+                            <div className="objetivo-info">
+                                <div className="categoria-icon bg-red-500">💪</div>
+                                <h3 className="objetivo-titulo">Torso</h3>
+                            </div>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Cuello</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.cuello}
                                     onChange={(e) => handleMedidaChange('cuello', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="38"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Pecho</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Pecho</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.pecho}
                                     onChange={(e) => handleMedidaChange('pecho', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="95"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Cintura</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Cintura</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.cintura}
                                     onChange={(e) => handleMedidaChange('cintura', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="85"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Cadera</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Cadera</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.cadera}
                                     onChange={(e) => handleMedidaChange('cadera', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="100"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Brazos */}
-                    <div className="medidas-grupo">
-                        <h3 className="grupo-title">Brazos</h3>
-                        <div className="form-grid-2cols">
-                            <div className="form-group">
-                                <label>Brazo Izquierdo</label>
+                    {/* Card Brazos */}
+                    <div className="objetivo-card">
+                        <div className="objetivo-header">
+                            <div className="objetivo-info">
+                                <div className="categoria-icon bg-green-500">💪</div>
+                                <h3 className="objetivo-titulo">Brazos</h3>
+                            </div>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Brazo Izquierdo</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.brazoIzq}
                                     onChange={(e) => handleMedidaChange('brazoIzq', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="35"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Brazo Derecho</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Brazo Derecho</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.brazoDer}
                                     onChange={(e) => handleMedidaChange('brazoDer', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="35"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Antebrazo Izquierdo</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Antebrazo Izquierdo</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.antebrazoIzq}
                                     onChange={(e) => handleMedidaChange('antebrazoIzq', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="28"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Antebrazo Derecho</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Antebrazo Derecho</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.antebrazoDer}
                                     onChange={(e) => handleMedidaChange('antebrazoDer', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="28"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* Piernas */}
-                    <div className="medidas-grupo">
-                        <h3 className="grupo-title">Piernas</h3>
-                        <div className="form-grid-2cols">
-                            <div className="form-group">
-                                <label>Muslo Izquierdo</label>
+                    {/* Card Piernas */}
+                    <div className="objetivo-card">
+                        <div className="objetivo-header">
+                            <div className="objetivo-info">
+                                <div className="categoria-icon bg-purple-500">🦵</div>
+                                <h3 className="objetivo-titulo">Piernas</h3>
+                            </div>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Muslo Izquierdo</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.musloIzq}
                                     onChange={(e) => handleMedidaChange('musloIzq', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="55"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Muslo Derecho</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Muslo Derecho</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.musloDer}
                                     onChange={(e) => handleMedidaChange('musloDer', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="55"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Pantorrilla Izquierda</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Pantorrilla Izquierda</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.pantorrillaIzq}
                                     onChange={(e) => handleMedidaChange('pantorrillaIzq', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="38"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
-                            <div className="form-group">
-                                <label>Pantorrilla Derecha</label>
+                        </div>
+
+                        <div className="objetivo-actualizar">
+                            <label>Pantorrilla Derecha</label>
+                            <div className="input-group">
                                 <input
                                     type="number"
                                     value={perfil.medidas.pantorrillaDer}
                                     onChange={(e) => handleMedidaChange('pantorrillaDer', e.target.value)}
-                                    className="form-input"
+                                    className="input-progreso"
                                     step="0.1"
                                     placeholder="38"
                                 />
+                                <span className="unidad-badge">cm</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Botón Guardar Footer */}
-                <div className="perfil-footer">
+                <div className="objetivos-actions" style={{ marginTop: '2rem' }}>
                     <button
                         onClick={guardarPerfil}
                         disabled={saving}
-                        className="btn-guardar-footer"
+                        className="btn-add-objetivo"
+                        style={{ width: '100%', maxWidth: '400px', margin: '0 auto' }}
                     >
                         <Save className="icon-small" />
                         {saving ? 'Guardando...' : 'Guardar Todos los Cambios'}
