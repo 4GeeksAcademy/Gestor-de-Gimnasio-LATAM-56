@@ -49,24 +49,24 @@ const TrainingSelector = () => {
     };
 
     return (
-        <div className="container mt-5 modern-card p-4">
+        <div className="modern-page-wrapper">
             <h2 className="text-center mb-4 fw-bold text-white">
                 Selecciona tu rutina
             </h2>
 
             {/* SELECTS */}
-            <div className="mb-3">
+            <div className="mb-3 modern">
                 <label className="form-label text-white">Objetivo</label>
-                <select className="form-select modern-select" onChange={(e) => setObjetivo(e.target.value)}>
+                <select className="form-select modern-select2" onChange={(e) => setObjetivo(e.target.value)}>
                     <option value="">Selecciona...</option>
                     <option value="bajar_peso">Bajar de peso</option>
                     <option value="ganar_masa">Ganar masa muscular</option>
                 </select>
             </div>
 
-            <div className="mb-3">
+            <div className="mb-3 modern">
                 <label className="form-label text-white">Grupo muscular</label>
-                <select className="form-select modern-select" onChange={(e) => setMusculo(e.target.value)}>
+                <select className="form-select modern-select2" onChange={(e) => setMusculo(e.target.value)}>
                     <option value="">Selecciona...</option>
                     <option value="pecho">Pecho</option>
                     <option value="espalda">Espalda</option>
@@ -79,7 +79,7 @@ const TrainingSelector = () => {
 
             {/* BOTÓN */}
             <button
-                className="btn btn-glass w-100 mt-2"
+                className="btn btn-glass2 w-100 mt-2"
                 onClick={obtenerRutina}
                 disabled={!objetivo || !musculo}
             >
@@ -88,7 +88,7 @@ const TrainingSelector = () => {
 
             {/* RESULTADOS */}
             {resultado && (
-                <div className="card glass-card mt-4">
+                <div className="glass-card mt-4">
                     <div className="card-body text-white">
                         <h4 className="card-title text-capitalize fw-bold">
                             Rutina para {resultado.musculo.replace("_", " ")}

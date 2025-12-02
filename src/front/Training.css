@@ -1,20 +1,21 @@
-/* =====================================
-   CONTENEDOR GENERAL CON FONDO COMPLETO
-   ===================================== */
+/* =======================
+CONTENEDOR GENERAL
+======================= */
 .modern-page-wrapper {
-  min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+  min-height: 100vh;
   width: 100%;
-  padding: 2rem; /* Opcional, según tu diseño */
+  padding: 2rem;
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: flex-start; /* Ajusta verticalmente al inicio */
+  flex-direction: column;
+  justify-content: flex-start; /* Para selects arriba */
+  align-items: center;
   background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* =====================================
-   CARD PRINCIPAL (MODERN CARD)
-   ===================================== */
+/* =======================
+CARD DE SELECCIÓN
+======================= */
 .modern-card {
   background: rgba(255, 255, 255, 0.06);
   border-radius: 1rem;
@@ -23,101 +24,35 @@
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-/* TITULOS */
-.modern-card h2,
-.modern-card h3 {
-  color: #93c5fd;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-/* =====================================
-   SELECT ESTILO ALTO (MODERN SELECT)
-   ===================================== */
-.modern-select {
+/* =======================
+SELECT MODERNO
+======================= */
+.modern-select2 {
   background: rgba(0, 0, 0, 0.35);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 0.6rem;
   padding: 0.6rem;
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
   transition: all 0.3s ease;
 }
 
-.modern-select:focus {
-  background: rgba(0, 0, 0, 0.55);
-  color: #fff;
-  border-color: #60a5fa;
-  box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
+.modern {
+  width: 400px;
 }
 
-/* =====================================
-   CARD GLASS PARA LISTA DE EJERCICIOS
-   ===================================== */
-.glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
-  margin-top: 1rem;
-}
-
-/* =====================================
-   EJERCICIO ITEMS
-   ===================================== */
-.exercise-item {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: 0.3s ease-in-out;
-}
-
-.exercise-item:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
-}
-
-/* =====================================
-   IMÁGENES GLASS
-   ===================================== */
-.glass-img {
-  width: 100%;
-  border-radius: 12px;
-  margin-top: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.glass-img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 24px rgba(96, 165, 250, 0.35);
-}
-
-/* =====================================
-   VIDEOS GLASS
-   ===================================== */
-.glass-video {
-  border-radius: 14px;
-  margin-top: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.glass-video:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 22px rgba(96, 165, 250, 0.35);
-}
-
-/* =====================================
-   BOTÓN GLASS
-   ===================================== */
-.btn-glass {
+/* =======================
+BOTÓN GLASS
+======================= */
+.btn-glass2 {
   padding: 0.9rem 1.4rem;
   font-size: 1rem;
   font-weight: 600;
@@ -127,7 +62,7 @@
   border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  width: 100%;
 }
 
 .btn-glass:hover {
@@ -135,14 +70,82 @@
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
 }
 
-/* RESPONSIVE */
+/* =======================
+CARD DE RESULTADOS
+======================= */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+}
+
+/* =======================
+EJERCICIOS
+======================= */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exercise-list {
+  width: 100%;
+}
+
+.exercise-item {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 1rem;
+  transition: 0.3s ease-in-out;
+}
+
+.exercise-item:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
+}
+
+.exercise-item h5 {
+  color: #93c5fd;
+  margin-bottom: 0.5rem;
+}
+
+/* =======================
+IMÁGENES Y VIDEOS
+======================= */
+.glass-img,
+.glass-video {
+  width: 100%;
+  max-height: 300px;
+  border-radius: 12px;
+  margin-top: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-img:hover,
+.glass-video:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(96, 165, 250, 0.35);
+}
+
 .video-container {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 */
-  border-radius: 15px;
+  padding-top: 56.25%;
   overflow: hidden;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  margin-top: 12px;
 }
 
 .video-container iframe {
@@ -151,4 +154,11 @@
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+@media (max-width: 900px) {
+  .glass-img,
+  .glass-video {
+    max-height: 200px;
+  }
 }

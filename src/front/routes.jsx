@@ -17,6 +17,8 @@ import Alimentacion from "./pages/Alimentacion";
 import Contacto from "./pages/Contacto";
 import { UserHome } from "./pages/UserHome";
 import PrivateRoute from "./components/PrivateRoute";
+import AboutUs from "./pages/AboutUs";
+
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +30,7 @@ export const router = createBrowserRouter(
       <Route path="demo" element={<Demo />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
+      <Route path="aboutus" element={<AboutUs />} />
 
       {/* Rutas protegidas - requieren autenticación */}
       <Route

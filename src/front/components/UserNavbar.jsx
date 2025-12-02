@@ -49,6 +49,7 @@ export const UserNavbar = () => {
 							<li><Link className="dropdown-item" to="/objetivos">Objetivos</Link></li>
 							<li><Link className="dropdown-item" to="/perfil-corporal">Perfil Corporal</Link></li>
 							<li><Link className="dropdown-item" to="/contacto">Contacto</Link></li>
+							<li><Link className="dropdown-item" to="/aboutus">About Us</Link></li>
 							<li><hr className="dropdown-divider" /></li>
 							<li>
 								<button 

@@ -45,7 +45,7 @@ export const Home = () => {
 	};
 
 	return (
-		<div className="text-center mt-5">
+		<div className="container home">
 
 			{/* Carousel */}
 			<div id="carouselExampleControls" className="carousel slide carousel-big" data-bs-ride="carousel">
