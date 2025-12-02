@@ -24,7 +24,7 @@ export default function Alimentacion() {
         }
 
         try {
-            const URL = import.meta.env.VITE_BACKEND_URL + "/api/alimentacion/dietas";
+            const URL = import.meta.env.VITE_BACKEND_URL + "/api/dietas";
 
             const res = await fetch(URL, {
                 method: "POST",
