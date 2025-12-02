@@ -23,7 +23,7 @@ const Contacto = () => {
 
                     <div className="info-item">
                         <i className="fa-solid fa-location-dot"></i>
-                        <span>Calle Falsa 123, Ciudad, País</span>
+                        <span>Calle Edison 3, Madrid, España</span>
                     </div>
 
                     <div className="info-hours">

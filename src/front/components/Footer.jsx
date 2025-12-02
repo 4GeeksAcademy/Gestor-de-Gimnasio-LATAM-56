@@ -27,8 +27,8 @@ export const Footer = () => {
 				{/* CONTACTO */}
 				<div className="footer-section">
 					<h3>Contacto</h3>
-					<p>Calle Falsa 123</p>
-					<p>Ciudad, País</p>
+					<p>Calle Edison 3</p>
+					<p>Madrid, España</p>
 					<p>+1 234 567 890</p>
 					<p>contacto@gymcloud.com</p>
 				</div>
