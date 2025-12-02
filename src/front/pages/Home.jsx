@@ -120,7 +120,7 @@ export const Home = () => {
 							Establece metas claras y personalizadas con una metodología enfocada en la
 							excelencia. Diseña tu camino hacia una mejor versión de ti mismo mediante
 							herramientas de seguimiento, planificación estratégica y una visión
-							orientada a resultados reales y duraderos.
+							orientada a resultados reales y mas duraderos.
 						</p>
 						<button
 							onClick={() => handleCardClick("/objetivos")}
